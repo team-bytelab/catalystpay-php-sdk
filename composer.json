@@ -1,0 +1,21 @@
+{
+    "name": "catalystpay/catalystpay-php-sdk",
+    "keywords": ["php","catalystpay"],
+    "description": "COPYandPAY is a SAQ-A compliant payment-form solution, making it both secure and simple-to-integrate.",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "CatalystPay\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Yogesh Vakhre",
+            "email": "support@catalystpay.com"
+        }
+    ],
+    "require": { }
+    
+}
