@@ -11,14 +11,14 @@ trait PerformsGET
      * Sends an HTTP GET request to the specified URL.
      *
      * @param string $url   The URL to send the request to.
-     * @param bool   $isDevelopment  The mode to set if true in production.
+     * @param bool   $isProduction  The mode to set if true in production.
      * @param string $token The Authorization token to send the request to.
      *
      * @return array The decoded JSON response.
      *
      * @throws \Exception If an error occurs during the request.
      */
-    private static function doGET($url, $isDevelopment, $token)
+    private static function doGET($url, $isProduction, $token)
     {
         // Initialize a new cURL session
         $ch = curl_init();
@@ -30,7 +30,7 @@ trait PerformsGET
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         // Set SSL verification based on the mode (true for production, false for testing)
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $isDevelopment);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $isProduction);
 
         // Set the Authorization header with the provided token
         curl_setopt($ch, CURLOPT_HTTPHEADER, [

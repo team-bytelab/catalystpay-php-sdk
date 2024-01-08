@@ -6,13 +6,11 @@ use CatalystPay\PaymentSDK;
 
 // Example usage
 try {
-    $paymentStatus = '';
-    $baseUrl = 'https://eu-test.oppwa.com/';
+
     $token = 'OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=';
     $entityId = '8a8294174b7ecb28014b9699220015ca';
     $isDevelopment = false;
     $paymentSDK = new PaymentSDK(
-        $baseUrl,
         $token,
         $entityId,
         $isDevelopment
@@ -53,7 +51,13 @@ try {
                 <p>We've received the your payment.</p>
                 <p>
                     <?php
-                    print_r($paymentStatus);
+
+                    if (isset($paymentStatus['card'])) {
+                    ?>
+                        <b>Card Holder Name:</b><span><?php echo $paymentStatus['card']['holder']; ?></span><br>
+                        <b>Transaction Id:</b><span><?php echo $checkoutId ?? ''; ?></span><br>
+                    <?php
+                    }
                     ?>
                 </p>
                 <button class="btn btn-primary">Back Home</button>

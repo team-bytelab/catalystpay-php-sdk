@@ -12,14 +12,14 @@ trait PerformsPOST
      *
      * @param string $url    The URL to send the request to.
      * @param array  $data   The data to be sent with the request.
-     * @param bool   $isDevelopment   The mode to set if true in production.
+     * @param bool   $isProduction   The mode to set if true in production.
      * @param string $token  The Authorization token to send the request to.
      *
      * @return array The decoded JSON response.
      *
      * @throws \Exception If an error occurs during the request.
      */
-    private static function doPOST($url, $data = [], $isDevelopment, $token)
+    private static function doPOST($url, $data = [], $isProduction, $token)
     {
 
 
@@ -41,7 +41,7 @@ trait PerformsPOST
         curl_setopt($ch, CURLOPT_POSTFIELDS, $formData);
 
         // Set SSL verification based on the mode (true for production, false for testing)
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $isDevelopment);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $isProduction);
 
         // Return the response instead of outputting it directly
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
