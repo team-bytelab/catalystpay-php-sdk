@@ -10,7 +10,7 @@ use CatalystPay\Traits\InteractsWithPayment;
 /**
  * CatalystPaySDK class for handling payment operations.
  */
-class CatalystPaySDK extends CatalystPayException
+class CatalystPaySDK
 {
     use InteractsWithCheckout, InteractsWithCopyAndPay, InteractsWithPayment;
 

@@ -63,7 +63,6 @@ trait PerformsPOST
                 400
 
             );
-            exit;
         }
         // Close the cURL session
         curl_close($ch);
