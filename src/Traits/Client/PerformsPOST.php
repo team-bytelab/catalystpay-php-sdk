@@ -2,6 +2,10 @@
 
 namespace CatalystPay\Traits\Client;
 
+
+use CatalystPay\CatalystPayResponse;
+use CatalystPay\Exceptions\CatalystPayException;
+
 /**
  * Trait for handling HTTP POST requests.
  */
@@ -21,8 +25,6 @@ trait PerformsPOST
      */
     private static function doPOST($url, $data = [], $isProduction, $token)
     {
-
-
         $formData = "entityId=" . $data['entityId'] .
             "&amount=" . $data['amount'] .
             "&currency=" . $data['currency'] .
@@ -56,12 +58,22 @@ trait PerformsPOST
         // Check if an error occurred during the request
         if ($response === false) {
             // Throw an exception with the error message
-            throw new \Exception('Error: ' . curl_error($ch));
-        }
+            throw new CatalystPayException(
+                curl_error($ch),
+                400
 
+            );
+            exit;
+        }
         // Close the cURL session
         curl_close($ch);
+
+        // Handle Response 
+        $catalystPayResponse = new CatalystPayResponse();
+        $catalystPayResponse->fromApiResponse($response);
+        //print_r($catalystPayResponse->getApiResponse());
+
         // Decode the JSON response and return it as an associative array
-        return json_decode($response, true);
+        return json_decode($catalystPayResponse->getApiResponse(), true);
     }
 }

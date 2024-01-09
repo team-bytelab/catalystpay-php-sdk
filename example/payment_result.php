@@ -1,19 +1,18 @@
 <?php
 require_once 'vendor/autoload.php';
 
-use CatalystPay\PaymentSDK;
-
+use CatalystPay\CatalystPaySDK;
 
 // Example usage
 try {
 
     $token = 'OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=';
     $entityId = '8a8294174b7ecb28014b9699220015ca';
-    $isDevelopment = false;
-    $paymentSDK = new PaymentSDK(
+    $isProduction = false;
+    $paymentSDK = new CatalystPaySDK(
         $token,
         $entityId,
-        $isDevelopment
+        $isProduction
     );
 
     // Handle the payment status as needed
