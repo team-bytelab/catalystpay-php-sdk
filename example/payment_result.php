@@ -1,7 +1,6 @@
 <?php
 require_once 'vendor/autoload.php';
 
-use CatalystPay\CatalystPayResponse;
 use CatalystPay\CatalystPaySDK;
 
 // Example usage
@@ -15,17 +14,19 @@ try {
         $entityId,
         $isProduction
     );
-
+    $errorMsg = '';
     // Handle the payment status as needed
     if (isset(($_GET['id']))) {
         $checkoutId = $_GET['id'];
-        $paymentResponse = $paymentSDK->getPaymentStatus($checkoutId);
+        $responseData = $paymentSDK->getPaymentStatus($checkoutId);
+        $isPaymentStatusSuccess = $paymentSDK->isPaymentStatusSuccess($responseData->getResultCode());
 
-        // Handle Response 
-        $catalystPayResponse = new CatalystPayResponse();
-        $catalystPayResponse->fromApiResponse($paymentResponse);
-        $paymentData = $catalystPayResponse->getApiResponse();
-        $paymentStatus = json_decode($paymentData, true);
+        // Check IF payment transaction pending is true
+        if ($paymentSDK->isPaymentTransactionPending($responseData)) {
+            $errorMsg = 'The transaction should be pending, but is ' . $responseData->getResultCode();
+        } elseif ($paymentSDK->isPaymentRequestNotFound($responseData->getResultCode())) { // Check IF payment request not found is true
+            $errorMsg = 'No payment session found for the requested id, but is ' . $responseData->getResultCode();
+        }
     }
 } catch (Exception $e) {
     echo 'Error: ' . $e->getMessage();
@@ -46,9 +47,10 @@ try {
     <div class="vh-100 d-flex justify-content-center align-items-center">
         <div>
             <?php
-            // Check if card is set
-            if (isset($paymentStatus['card'])) {
+            // Check if Payment Status Success
+            if ($isPaymentStatusSuccess) {
             ?>
+
                 <div class=" mb-4 text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="text-success" width="75" height="75" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
@@ -58,17 +60,13 @@ try {
                     <h1>Thank You !</h1>
                     <p>We've received the your payment.</p>
                     <p>
-
-                        <b>Card Holder Name:</b><span><?php echo $paymentStatus['card']['holder']; ?></span><br>
-                        <b>Transaction Id:</b><span><?php echo $checkoutId ?? ''; ?></span><br>
-
+                        <b>Transaction Id:</b><span><?php echo $responseData->getId() ?? ''; ?></span><br>
                     </p>
                     <button class="btn btn-primary">Back Home</button>
                 </div>
             <?php
-            } else {
-                echo  'The transaction should be pending, but is ' . $catalystPayResponse->getResultCode();
             }
+            echo $errorMsg;
             ?>
         </div>
 </body>

@@ -1,7 +1,6 @@
 <?php
 require_once 'vendor/autoload.php';
 
-use CatalystPay\CatalystPayResponse;
 use CatalystPay\CatalystPayResponseCode;
 use CatalystPay\CatalystPaySDK;
 
@@ -25,6 +24,8 @@ use CatalystPay\CatalystPaySDK;
         // Example usage
         try {
             $successMessage = $errorMessage = '';
+
+            // Configured  CatalystPaySDK
             $token = 'OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=';
             $entityId = '8a8294174b7ecb28014b9699220015ca';
             $isProduction = false;
@@ -33,22 +34,26 @@ use CatalystPay\CatalystPaySDK;
                 $entityId,
                 $isProduction
             );
-            $responseData = $paymentSDK->prepareCheckout(92.00, 'EUR', CatalystPaySDK::PAYMENT_TYPE_DEBIT);
 
-            // Handle Response 
-            $catalystPayResponse = new CatalystPayResponse();
-            $catalystPayResponse->fromApiResponse($responseData);
-            // print_r($catalystPayResponse->getResultCode());
+            // Form Values defined variable
+            $amount = 92.00;
+            $currency = 'EUR';
+            $paymentType = CatalystPaySDK::PAYMENT_TYPE_DEBIT;
 
-            $isPrepareCheckoutSuccess = $paymentSDK->isPrepareCheckoutSuccess($catalystPayResponse->getResultCode());
+            // Form Data
+            $formData = "&amount=" .  $amount .
+                "&currency=" . $currency .
+                "&paymentType=" . $paymentType;
+            $responseData = $paymentSDK->prepareCheckout($formData);
+            $isPrepareCheckoutSuccess = $paymentSDK->isPrepareCheckoutSuccess($responseData->getResultCode());
 
             // Check if isPrepareCheckoutSuccess is true
             if ($isPrepareCheckoutSuccess) {
                 //Show checkout success
-                $infoMessage = 'The checkout returned ' . $catalystPayResponse->getResultCode() . ' instead of ' . CatalystPayResponseCode::CREATED_CHECKOUT;
-                $checkoutId = $catalystPayResponse->getId(); // Assuming the response contains the ID
+                $infoMessage = 'The checkout returned ' . $responseData->getResultCode() . ' instead of ' . CatalystPayResponseCode::CREATED_CHECKOUT;
+                $checkoutId = $responseData->getId(); // Assuming the response contains the ID
                 $shopperResultUrl = "http://localhost/catalystpay-php-sdk/payment_result.php"; // Replace with your actual URL
-                sleep(5); // Wait for 5 seconds before checking the payment status
+                echo $paymentSDK->createPaymentForm($checkoutId, $shopperResultUrl, [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX]);
             } else {
                 $errorMessage = "The Prepare Checkout was not successful";
             }
@@ -59,13 +64,6 @@ use CatalystPay\CatalystPaySDK;
             <div class="col-md-12">
                 <?php
 
-                //Show success Message
-                if ($successMessage !== "") { ?> <div class="alert alert-success">
-                        <strong>Success!</strong>
-                        <?php echo $successMessage; ?>
-                    </div>
-                <?php
-                }
                 //Show info Message
                 if ($infoMessage !== "") { ?> <div class="alert alert-info">
                         <strong>Info!</strong>
@@ -83,16 +81,7 @@ use CatalystPay\CatalystPaySDK;
                 } ?>
             </div>
         </div>
-        <?php
-        // Check if isPrepareCheckoutSuccess is true
-        if ($isPrepareCheckoutSuccess) {
-            echo $paymentSDK->createPaymentForm($checkoutId, $shopperResultUrl, [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX]);
-        } ?>
     </div>
-
-
-
-
 </body>
 
 </html>
