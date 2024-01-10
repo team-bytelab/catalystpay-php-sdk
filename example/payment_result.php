@@ -1,6 +1,7 @@
 <?php
 require_once 'vendor/autoload.php';
 
+use CatalystPay\CatalystPayResponse;
 use CatalystPay\CatalystPaySDK;
 
 // Example usage
@@ -18,8 +19,13 @@ try {
     // Handle the payment status as needed
     if (isset(($_GET['id']))) {
         $checkoutId = $_GET['id'];
+        $paymentResponse = $paymentSDK->getPaymentStatus($checkoutId);
 
-        $paymentStatus = $paymentSDK->getPaymentStatus($checkoutId);
+        // Handle Response 
+        $catalystPayResponse = new CatalystPayResponse();
+        $catalystPayResponse->fromApiResponse($paymentResponse);
+        $paymentData = $catalystPayResponse->getApiResponse();
+        $paymentStatus = json_decode($paymentData, true);
     }
 } catch (Exception $e) {
     echo 'Error: ' . $e->getMessage();
@@ -39,28 +45,31 @@ try {
 <body>
     <div class="vh-100 d-flex justify-content-center align-items-center">
         <div>
+            <?php
+            // Check if card is set
+            if (isset($paymentStatus['card'])) {
+            ?>
+                <div class=" mb-4 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-success" width="75" height="75" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                    </svg>
+                </div>
+                <div class="text-center">
+                    <h1>Thank You !</h1>
+                    <p>We've received the your payment.</p>
+                    <p>
 
-            <div class=" mb-4 text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="text-success" width="75" height="75" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                </svg>
-            </div>
-            <div class="text-center">
-                <h1>Thank You !</h1>
-                <p>We've received the your payment.</p>
-                <p>
-                    <?php
-
-                    if (isset($paymentStatus['card'])) {
-                    ?>
                         <b>Card Holder Name:</b><span><?php echo $paymentStatus['card']['holder']; ?></span><br>
                         <b>Transaction Id:</b><span><?php echo $checkoutId ?? ''; ?></span><br>
-                    <?php
-                    }
-                    ?>
-                </p>
-                <button class="btn btn-primary">Back Home</button>
-            </div>
+
+                    </p>
+                    <button class="btn btn-primary">Back Home</button>
+                </div>
+            <?php
+            } else {
+                echo  'The transaction should be pending, but is ' . $catalystPayResponse->getResultCode();
+            }
+            ?>
         </div>
 </body>
 

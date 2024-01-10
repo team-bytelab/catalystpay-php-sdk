@@ -67,12 +67,6 @@ trait PerformsPOST
         // Close the cURL session
         curl_close($ch);
 
-        // Handle Response 
-        $catalystPayResponse = new CatalystPayResponse();
-        $catalystPayResponse->fromApiResponse($response);
-        //print_r($catalystPayResponse->getApiResponse());
-
-        // Decode the JSON response and return it as an associative array
-        return json_decode($catalystPayResponse->getApiResponse(), true);
+        return $response;
     }
 }
