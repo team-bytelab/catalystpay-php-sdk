@@ -19,7 +19,7 @@ use CatalystPay\CatalystPaySDK;
 
 // Example usage
 try {
-    $successMessage = $errorMessage = '';
+    $infoMessage = $errorMessage = '';
 
     // Configured  CatalystPaySDK
     $token = 'OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=';
