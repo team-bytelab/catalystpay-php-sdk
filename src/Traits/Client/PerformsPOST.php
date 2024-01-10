@@ -25,11 +25,6 @@ trait PerformsPOST
      */
     private static function doPOST($url, $data = [], $isProduction, $token)
     {
-        $formData = "entityId=" . $data['entityId'] .
-            "&amount=" . $data['amount'] .
-            "&currency=" . $data['currency'] .
-            "&paymentType=" . $data['paymentType'];
-
         // Initialize a new cURL session
         $ch = curl_init();
 
@@ -40,7 +35,7 @@ trait PerformsPOST
         curl_setopt($ch, CURLOPT_POST, 1);
 
         // Set the POST data to be sent with the request
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $formData);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 
         // Set SSL verification based on the mode (true for production, false for testing)
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $isProduction);
@@ -67,6 +62,11 @@ trait PerformsPOST
         // Close the cURL session
         curl_close($ch);
 
-        return $response;
+        // Handle Response 
+        $catalystPayResponse = new CatalystPayResponse();
+        $catalystPayResponse->fromApiResponse($response);
+        //print_r($catalystPayResponse->getResultCode());
+        // exit;
+        return $catalystPayResponse;
     }
 }

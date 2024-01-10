@@ -55,6 +55,13 @@ trait PerformsGET
         // Close the cURL session
         curl_close($ch);
 
-        return $response;
+        // return $response;
+
+        // Handle Response 
+        $catalystPayResponse = new CatalystPayResponse();
+        $catalystPayResponse->fromApiResponse($response);
+        //print_r($catalystPayResponse->getResultCode());
+        // exit;
+        return $catalystPayResponse;
     }
 }

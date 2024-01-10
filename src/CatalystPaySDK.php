@@ -2,17 +2,17 @@
 
 namespace CatalystPay;
 
-use CatalystPay\Exceptions\CatalystPayException;
-use CatalystPay\Traits\InteractsWithCheckout;
-use CatalystPay\Traits\InteractsWithCopyAndPay;
-use CatalystPay\Traits\InteractsWithPayment;
+use CatalystPay\Traits\Checkout;
+use CatalystPay\Traits\CopyAndPay;
+use CatalystPay\Traits\Payment;
+use CatalystPay\Traits\RegisterCheckout;
 
 /**
  * CatalystPaySDK class for handling payment operations.
  */
 class CatalystPaySDK
 {
-    use InteractsWithCheckout, InteractsWithCopyAndPay, InteractsWithPayment;
+    use Checkout, CopyAndPay, Payment;
 
     /** @var string The base URL for API requests. */
     private $baseUrl;
