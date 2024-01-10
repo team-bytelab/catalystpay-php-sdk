@@ -3,7 +3,7 @@
 namespace CatalystPay;
 
 use CatalystPay\Exceptions\CatalystPayException;
-use CatalystPay\Traits\Response\InterpretsResultCode;
+use CatalystPay\Traits\Response\ResultCode;
 
 /**
  * Class CatalystPayResponse
@@ -11,7 +11,7 @@ use CatalystPay\Traits\Response\InterpretsResultCode;
  */
 class CatalystPayResponse
 {
-    use InterpretsResultCode;
+    use ResultCode;
     // Constants for various result codes
     const RESULT_CODE_CAT_SUCCESS_PROCESS = "SUCCESS_PROCESS";
     const RESULT_CODE_CAT_SUCCESS_PROCESS_MANUAL_REVIEW = "SUCCESS_PROCESS_MANUAL_REVIEW";

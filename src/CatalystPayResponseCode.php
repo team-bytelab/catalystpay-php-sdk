@@ -17,4 +17,14 @@ class CatalystPayResponseCode
      * The response code for a pending transaction.
      */
     const TRANSACTION_PENDING = '000.200.000';
+
+    /**
+     * The response code for a request not found.
+     */
+    const REQUEST_NOT_FOUND = '200.300.404';
+
+    /**
+     * The response code for a created checkout.
+     */
+    const CREATED_PAYMENT_STATUS = '000.100.110';
 }
