@@ -21,7 +21,7 @@ trait CopyAndPay
      * @param array $dataBrands The payment brands to display (optional).
      * @return string The HTML form with payment widgets.
      */
-    public function createPaymentForm($checkoutId, $shopperResultUrl, $dataBrands = [])
+    public function createPaymentForm($checkoutId, $shopperResultUrl, $dataBrands = [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX])
     {
         return $this->getCopyAndPayScript($checkoutId) . $this->getPaymentForm($shopperResultUrl, $dataBrands);
     }
