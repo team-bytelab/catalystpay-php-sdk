@@ -21,10 +21,13 @@ trait Checkout
      * @param string $formData The form Data.
      * @return CatalystPayResponse The API response.
      */
-    public function prepareCheckout($formData)
+    public function prepareCheckout($amount, $currency, $paymentType)
     {
+        // Form Data
         $baseOptions = "entityId=" . $this->entityId .
-            $formData;
+            "&amount=" .  $amount .
+            "&currency=" . $currency .
+            "&paymentType=" . $paymentType;
         $url = $this->baseUrl . CatalystPaySDK::URI_CHECKOUTS;
         $response =  $this->doPOST($url, $baseOptions, $this->isProduction, $this->token);
         return $response;
