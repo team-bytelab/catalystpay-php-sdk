@@ -2,7 +2,6 @@
 
 namespace CatalystPay\Traits;
 
-use CatalystPay\CatalystPayResponse;
 use CatalystPay\CatalystPayResponseCode;
 use CatalystPay\CatalystPaySDK;
 use CatalystPay\Traits\Client\PerformsPOST;
