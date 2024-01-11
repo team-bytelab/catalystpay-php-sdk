@@ -16,10 +16,13 @@ trait Checkout
     use PerformsPOST;
 
     /**
-     * Prepare a checkout request.
+     * Prepares a new checkout.
      *
-     * @param string $formData The form Data.
-     * @return CatalystPayResponse The API response.
+     * @param float  $amount      The amount of the payment.
+     * @param string $currency    The currency of the payment.
+     * @param string $paymentType The type of payment (e.g., DB, CD).
+     *
+     * @return array The decoded JSON response.
      */
     public function prepareCheckout($amount, $currency, $paymentType)
     {
