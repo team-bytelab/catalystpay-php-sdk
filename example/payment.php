@@ -40,11 +40,8 @@ use CatalystPay\CatalystPaySDK;
             $currency = 'EUR';
             $paymentType = CatalystPaySDK::PAYMENT_TYPE_DEBIT;
 
-            // Form Data
-            $formData = "&amount=" .  $amount .
-                "&currency=" . $currency .
-                "&paymentType=" . $paymentType;
-            $responseData = $paymentSDK->prepareCheckout($formData);
+            //Prepare Check out form 
+            $responseData = $paymentSDK->prepareCheckout($amount, $currency, $paymentType);
             $isPrepareCheckoutSuccess = $paymentSDK->isPrepareCheckoutSuccess($responseData->getResultCode());
 
             // Check if isPrepareCheckoutSuccess is true

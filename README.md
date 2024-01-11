@@ -10,7 +10,7 @@
 
 ### 2) Go to root project and you can use this PaymentSDK class in your PHP code as follows
 
-```php <?php
+```php
 
 require_once 'vendor/autoload.php';
 
@@ -19,7 +19,6 @@ use CatalystPay\CatalystPaySDK;
 
 // Example usage
 try {
-    $infoMessage = $errorMessage = '';
 
     // Configured  CatalystPaySDK
     $token = 'OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=';
@@ -51,9 +50,49 @@ try {
         $shopperResultUrl = "http://localhost/catalystpay-php-sdk/payment_result.php"; // Replace with your actual URL
         echo $paymentSDK->createPaymentForm($checkoutId, $shopperResultUrl, [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX]);
     } else {
-        $errorMessage = "The Prepare Checkout was not successful";
+        echo "The Prepare Checkout was not successful";
     }
 } catch (Exception $e) {
-    $errorMessage = $e->getMessage();
+    echo $e->getMessage();
 }
+```
+
+### 3) Go to root project and you can use this PaymentSDK class to get payment status in your PHP code as follows
+
+```php
+
+require_once 'vendor/autoload.php';
+
+use CatalystPay\CatalystPaySDK;
+
+// Example usage
+try {
+
+    $token = 'OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=';
+    $entityId = '8a8294174b7ecb28014b9699220015ca';
+    $isProduction = false;
+    $paymentSDK = new CatalystPaySDK(
+        $token,
+        $entityId,
+        $isProduction
+    );
+   
+    // Handle the payment status as needed
+    if (isset(($_GET['id']))) {
+        $checkoutId = $_GET['id'];
+        $responseData = $paymentSDK->getPaymentStatus($checkoutId);
+        $isPaymentStatusSuccess = $paymentSDK->isPaymentStatusSuccess($responseData->getResultCode());
+
+        // Check IF payment transaction pending is true
+        if ($paymentSDK->isPaymentTransactionPending($responseData)) {
+           echo 'The transaction should be pending, but is ' . $responseData->getResultCode();
+        } elseif ($paymentSDK->isPaymentRequestNotFound($responseData->getResultCode())) { // Check IF payment request not found is true
+            echo 'No payment session found for the requested id, but is ' . $responseData->getResultCode();
+        }
+         
+    }
+} catch (Exception $e) {
+    echo 'Error: ' . $e->getMessage();
+}
+
 ```
