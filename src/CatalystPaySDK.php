@@ -4,6 +4,7 @@ namespace CatalystPay;
 
 use CatalystPay\Traits\Checkout;
 use CatalystPay\Traits\CopyAndPay;
+use CatalystPay\Traits\CreateRegistrationForm;
 use CatalystPay\Traits\Payment;
 use CatalystPay\Traits\RegisterCheckout;
 
@@ -12,7 +13,7 @@ use CatalystPay\Traits\RegisterCheckout;
  */
 class CatalystPaySDK
 {
-    use Checkout, CopyAndPay, Payment;
+    use Checkout, CopyAndPay, Payment, RegisterCheckout, CreateRegistrationForm;
 
     /** @var string The base URL for API requests. */
     private $baseUrl;
@@ -29,15 +30,21 @@ class CatalystPaySDK
     /** @var bool The mode indicating whether to use SSL verification in requests. False when isProduction is false */
     private $isProduction = false;
 
+    /** @var bool The isCreateRegistration indicating whether to use createRegistration in requests. False when isCreateRegistration is false */
+    private $isCreateRegistration = false;
+
     /** @var string The client for the payment. */
     protected $client;
 
     // Constants for various Url
-    const URI_CHECKOUTS = 'v1/checkouts';
+    const URI_CHECKOUTS = '/v1/checkouts';
     const URI_PAYMENT_WIDGETS = '/v1/paymentWidgets.js';
+    const URI_REGISTRATION = "/registration";
+    const URI_REGISTRATIONS = "/v1/registrations";
     const URI_PAYMENT = '/payment';
-    const DEVELOPMENT_URL = "https://eu-test.oppwa.com/";
-    const PRODUCTION_URL = "https://eu-prod.oppwa.com/";
+    const URI_PAYMENTS = '/payments';
+    const DEVELOPMENT_URL = "https://eu-test.oppwa.com";
+    const PRODUCTION_URL = "https://eu-prod.oppwa.com";
 
     // Constants for various payment type
     const PAYMENT_TYPE_PREAUTH = 'PA';
@@ -52,6 +59,14 @@ class CatalystPaySDK
     const PAYMENT_BRAND_MASTERCARD = 'MASTER';
     const PAYMENT_BRAND_AMEX = 'AMEX';
 
+    // Constants for various testMode
+    const TEST_MODE_EXTERNAL = 'EXTERNAL';
+
+    // Constants for various standing instruction
+    const STANDING_INSTRUCTION_TYPE_UNSCHEDULED = 'UNSCHEDULED';
+    const STANDING_INSTRUCTION_MODE_INITIAL = 'INITIAL';
+    const STANDING_INSTRUCTION_SOURCE_CIT = 'CIT';
+
     /**
      * Constructs a new CatalystPaySDK instance.
      *
@@ -60,13 +75,18 @@ class CatalystPaySDK
      * @param string $entityId The entity ID for the payment.
      * @param bool   $isProduction     The isProduction indicating whether to use SSL verification in requests.
      */
-    public function __construct($token, $entityId, $isProduction = false)
+    public function __construct($token, $entityId, $isProduction = false, $isCreateRegistration = false)
     {
         //Check if is DEVELOPMENT server
         if ($isProduction === false) {
             $this->baseUrl =  self::DEVELOPMENT_URL;
         } else {
             $this->baseUrl =  self::PRODUCTION_URL;
+        }
+
+        //Check if createRegistration true
+        if ($isCreateRegistration === true) {
+            $this->isCreateRegistration =  $isCreateRegistration;
         }
 
         $this->token = $token;
