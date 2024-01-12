@@ -23,18 +23,33 @@ trait Payment
      */
     public function getPaymentStatus($checkoutId)
     {
-        return $this->getCheckoutPaymentStatusUrl($checkoutId);
+        $url = $this->baseUrl . CatalystPaySDK::URI_CHECKOUTS . '/' . $checkoutId . CatalystPaySDK::URI_PAYMENT . '?entityId=' . $this->entityId;
+        return $this->getCheckoutPaymentStatusUrl($url, $checkoutId);
     }
+
+
+    /**
+     * Get the registration status for a checkout.
+     *
+     * @param string $checkoutId The ID of the payment.
+     * @return string The URL to check the payment status.
+     */
+    public function getRegistrationStatus($checkoutId)
+    {
+        $url = $this->baseUrl . CatalystPaySDK::URI_CHECKOUTS . '/' . $checkoutId . CatalystPaySDK::URI_REGISTRATION . '?entityId=' . $this->entityId;
+        return $this->getCheckoutPaymentStatusUrl($url);
+    }
+
 
     /**
      * Get the URL to check the payment status for a checkout.
+     * 
+     * @param string $url The URL of the checkout payment.
      *
-     * @param string $checkoutId The ID of the checkout.
      * @return string The URL to check the payment status.
      */
-    public function getCheckoutPaymentStatusUrl($checkoutId)
+    public function getCheckoutPaymentStatusUrl($url)
     {
-        $url = $this->baseUrl . CatalystPaySDK::URI_CHECKOUTS . '/' . $checkoutId . CatalystPaySDK::URI_PAYMENT . '?entityId=' . $this->entityId;
         $response =  $this->doGET($url, $this->isProduction, $this->token);
         return $response;
     }

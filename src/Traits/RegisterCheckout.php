@@ -3,7 +3,6 @@
 namespace CatalystPay\Traits;
 
 use CatalystPay\CatalystPaySDK;
-use CatalystPay\Exceptions\CatalystPayException;
 use CatalystPay\Traits\Client\PerformsPOST;
 
 /**
@@ -15,55 +14,24 @@ trait RegisterCheckout
     use PerformsPOST;
 
     /**
-     * Prepares a new Register Payment checkout.
-     *
-     * @param string  $testMode The testMode to check the payment mode.     
-     * @param bool $createRegistration    The createRegistration of the payment.
-     *
-     * @return array The decoded JSON response.
-     */
-    public function registerPaymentCheckout($paymentBrand, $paymentType, $amount, $currency, $standingInstructionType, $standingInstructionMode, $standingInstructionSource, $testMode)
-    {
-        $responseRegisterCheckout = $this->prepareRegisterCheckout($testMode);
-
-        $checkoutId = $responseRegisterCheckout->getId();
-        $isPrepareCheckoutSuccess = $this->isPrepareCheckoutSuccess($responseRegisterCheckout->getResultCode());
-        if (!$isPrepareCheckoutSuccess) {
-            throw new CatalystPayException(
-                'The Prepare Checkout was not successful',
-                $responseRegisterCheckout->getResultCode()
-
-            );
-        }
-        $data = [
-            'checkoutId' => $checkoutId,
-            'paymentBrand' => $paymentBrand,
-            'paymentType' => $paymentType,
-            'amount' => $amount,
-            'currency' => $currency,
-            'standingInstructionType' => $standingInstructionType,
-            'standingInstructionMode' => $standingInstructionMode,
-            'standingInstructionSource' => $standingInstructionSource,
-            'testMode' => $testMode
-        ];
-        $responsePayment = $this->sendRegisterPayment($checkoutId, $data);
-        return $responsePayment;
-    }
-
-    /**
      * Prepares a new Register checkout.
      *
-     * @param string  $testMode The testMode to check the payment mode.     
-     * @param bool $createRegistration    The createRegistration of the payment.
+     * @param array  $data  The payment data like amount,currency paymentType etc..     
      *
      * @return array The decoded JSON response.
      */
-    public function prepareRegisterCheckout($testMode)
+    public function prepareRegisterCheckout($data)
     {
         // Form Data
         $baseOptions = "entityId=" . $this->entityId .
-            "&testMode=" . $testMode .
-            "&createRegistration=" .  $this->isCreateRegistration;
+            "&testMode=" . $data['testMode'] .
+            "&createRegistration=" .  $this->isCreateRegistration .
+            "&paymentType=" . $data['paymentType'] .
+            "&amount=" . $data['amount'] .
+            "&currency=" . $data['currency'] .
+            "&standingInstruction.type=" . $data['standingInstructionType'] .
+            "&standingInstruction.mode=" . $data['standingInstructionMode'] .
+            "&standingInstruction.source=" . $data['standingInstructionSource'];
         $url = $this->baseUrl . CatalystPaySDK::URI_CHECKOUTS;
         $response =  $this->doPOST($url, $baseOptions, $this->isProduction, $this->token);
         return $response;
@@ -76,7 +44,7 @@ trait RegisterCheckout
      *
      * @return array The decoded JSON response.
      */
-    public function sendRegisterPayment($checkoutId, $data = [])
+    public function sendRegisterPayment($paymentId, $data = [])
     {
         // Form Data
         $baseOptions = "entityId=" . $this->entityId .
@@ -90,19 +58,19 @@ trait RegisterCheckout
             "&testMode=" . $data['testMode'];
 
 
-        $url = $this->getRegisterPaymentUrl($checkoutId);
+        $url = $this->getRegisterPaymentUrl($paymentId);
         $response =  $this->doPOST($url, $baseOptions, $this->isProduction, $this->token);
         return $response;
     }
 
     /**
-     * Get the URL for the Register Payment with the specified checkout ID.
+     * Get the URL for the Register Payment with the specified paymentId.
      *
-     * @param string $checkoutId The ID of the checkout.
+     * @param string $paymentId The ID of the checkout.
      * @return string The URL for the Register Payment.
      */
-    public function getRegisterPaymentUrl($checkoutId)
+    public function getRegisterPaymentUrl($paymentId)
     {
-        return $this->baseUrl . CatalystPaySDK::URI_REGISTRATIONS . '/' . $checkoutId . CatalystPaySDK::URI_PAYMENTS;
+        return $this->baseUrl . CatalystPaySDK::URI_REGISTRATIONS . '/' . $paymentId . CatalystPaySDK::URI_PAYMENTS;
     }
 }

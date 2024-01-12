@@ -89,7 +89,7 @@ trait ResultCode
         $codeCategorisers = [];
 
         $codeCategorisers = [
-            self::RESULT_CODE_CAT_SUCCESS_PROCESS => '/^(000\.000\.|000\.100\.1|000\.[356])/',
+            self::RESULT_CODE_CAT_SUCCESS_PROCESS => '/^(000\.000\.|000\.100\.1|000\.[356]|000\.100\.112)/',
             self::RESULT_CODE_CAT_SUCCESS_PROCESS_MANUAL_REVIEW => '/^(000\.400\.0[^3]|000\.400\.100)/',
             self::RESULT_CODE_CAT_PENDING => '/^(000\.200)/',
             self::RESULT_CODE_CAT_PENDING_WAITING => '/^(800\.400\.5|100\.400\.500)/',
