@@ -38,18 +38,23 @@ use CatalystPay\CatalystPaySDK;
             );
 
             // Form Values defined variable
-            $amount = 92.00;
-            $currency = 'EUR';
-            $paymentType = CatalystPaySDK::PAYMENT_TYPE_DEBIT;
-            $paymentBrand = CatalystPaySDK::PAYMENT_BRAND_VISA;
-            $standingInstructionType =  CatalystPaySDK::STANDING_INSTRUCTION_TYPE_UNSCHEDULED;
-            $standingInstructionMode =  CatalystPaySDK::STANDING_INSTRUCTION_MODE_INITIAL;
-            $standingInstructionSource = CatalystPaySDK::STANDING_INSTRUCTION_SOURCE_CIT;
-            $testMode = CatalystPaySDK::TEST_MODE_EXTERNAL;
 
+            $data = [
+                'paymentBrand' => CatalystPaySDK::PAYMENT_BRAND_VISA,
+                'paymentType' =>  CatalystPaySDK::PAYMENT_TYPE_DEBIT,
+                'amount' => 92.00,
+                'currency' => 'EUR',
+                'standingInstructionType' =>  CatalystPaySDK::STANDING_INSTRUCTION_TYPE_UNSCHEDULED,
+                'standingInstructionMode' =>  CatalystPaySDK::STANDING_INSTRUCTION_MODE_INITIAL,
+                'standingInstructionSource' => CatalystPaySDK::STANDING_INSTRUCTION_SOURCE_CIT,
+                'testMode' => CatalystPaySDK::TEST_MODE_EXTERNAL
+            ];
             //Prepare Check out form 
-            $responseData = $paymentSDK->registerPaymentCheckout($paymentBrand, $paymentType, $amount, $currency, $standingInstructionType, $standingInstructionMode, $standingInstructionSource, $testMode);
-            // print_r($responseData);
+            $responseData = $paymentSDK->prepareRegisterCheckout($data);
+
+
+            // $responsePayment =  $paymentSDK->sendRegisterPayment($checkoutId, $data);
+            // print_r($responsePayment);
             // exit;
             $isPrepareCheckoutSuccess = $paymentSDK->isPrepareCheckoutSuccess($responseData->getResultCode());
 
@@ -58,7 +63,7 @@ use CatalystPay\CatalystPaySDK;
                 //Show checkout success
                 $infoMessage = 'The checkout returned ' . $responseData->getResultCode() . ' instead of ' . CatalystPayResponseCode::CREATED_CHECKOUT;
                 $checkoutId = $responseData->getId(); // Assuming the response contains the ID
-                $shopperResultUrl = "http://localhost/catalystpay-php-sdk/payment_result.php"; // Replace with your actual URL
+                $shopperResultUrl = "http://localhost/catalystpay-php-sdk/register_payment_result.php"; // Replace with your actual URL
                 echo $paymentSDK->getCreateRegistrationPaymentForm($checkoutId, $shopperResultUrl, [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX]);
             } else {
                 $errorMessage = "The Prepare Checkout was not successful";
