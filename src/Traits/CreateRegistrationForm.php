@@ -65,6 +65,6 @@ trait CreateRegistrationForm
     public function getCreateRegistrationFormScriptUrl($checkoutId)
     {
         return $this->baseUrl . CatalystPaySDK::URI_PAYMENT_WIDGETS
-            . '?checkoutId=' . $checkoutId . '/' .  CatalystPaySDK::URI_REGISTRATION;
+            . '?checkoutId=' . $checkoutId . CatalystPaySDK::URI_REGISTRATION;
     }
 }

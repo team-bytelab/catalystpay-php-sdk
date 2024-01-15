@@ -9,7 +9,7 @@ use CatalystPay\CatalystPaySDK;
 <html lang="en">
 
 <head>
-    <title>Bootstrap Example</title>
+    <title>Register Payment</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -29,37 +29,25 @@ use CatalystPay\CatalystPaySDK;
             $token = 'OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=';
             $entityId = '8a8294174b7ecb28014b9699220015ca';
             $isProduction = false;
-            $isCreateRegistration = true;
+            $isCreateRegistration = 'true';
             $paymentSDK = new CatalystPaySDK(
                 $token,
                 $entityId,
-                $isProduction,
-                $isCreateRegistration
+                $isProduction
             );
 
             // Form Values defined variable
-
             $data = [
-                'paymentBrand' => CatalystPaySDK::PAYMENT_BRAND_VISA,
-                'paymentType' =>  CatalystPaySDK::PAYMENT_TYPE_DEBIT,
-                'amount' => 92.00,
-                'currency' => 'EUR',
-                'standingInstructionType' =>  CatalystPaySDK::STANDING_INSTRUCTION_TYPE_UNSCHEDULED,
-                'standingInstructionMode' =>  CatalystPaySDK::STANDING_INSTRUCTION_MODE_INITIAL,
-                'standingInstructionSource' => CatalystPaySDK::STANDING_INSTRUCTION_SOURCE_CIT,
-                'testMode' => CatalystPaySDK::TEST_MODE_EXTERNAL
+                'testMode' => CatalystPaySDK::TEST_MODE_EXTERNAL,
+                'createRegistration' => $isCreateRegistration
             ];
             //Prepare Check out form 
             $responseData = $paymentSDK->prepareRegisterCheckout($data);
 
-
-            // $responsePayment =  $paymentSDK->sendRegisterPayment($checkoutId, $data);
-            // print_r($responsePayment);
-            // exit;
-            $isPrepareCheckoutSuccess = $paymentSDK->isPrepareCheckoutSuccess($responseData->getResultCode());
-
-            // Check if isPrepareCheckoutSuccess is true
-            if ($isPrepareCheckoutSuccess) {
+            //  print_r($responseData);
+            // var_dump($responseData->isCheckoutSuccess());
+            // Check if checkout success is true
+            if ($responseData->isCheckoutSuccess()) {
                 //Show checkout success
                 $infoMessage = 'The checkout returned ' . $responseData->getResultCode() . ' instead of ' . CatalystPayResponseCode::CREATED_CHECKOUT;
                 $checkoutId = $responseData->getId(); // Assuming the response contains the ID

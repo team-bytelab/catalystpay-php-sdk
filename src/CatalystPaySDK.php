@@ -30,8 +30,6 @@ class CatalystPaySDK
     /** @var bool The mode indicating whether to use SSL verification in requests. False when isProduction is false */
     private $isProduction = false;
 
-    /** @var bool The isCreateRegistration indicating whether to use createRegistration in requests. False when isCreateRegistration is false */
-    private $isCreateRegistration = false;
 
     /** @var string The client for the payment. */
     protected $client;
@@ -82,11 +80,6 @@ class CatalystPaySDK
             $this->baseUrl =  self::DEVELOPMENT_URL;
         } else {
             $this->baseUrl =  self::PRODUCTION_URL;
-        }
-
-        //Check if createRegistration true
-        if ($isCreateRegistration === true) {
-            $this->isCreateRegistration =  $isCreateRegistration;
         }
 
         $this->token = $token;

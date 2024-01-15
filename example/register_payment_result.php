@@ -5,7 +5,8 @@ use CatalystPay\CatalystPaySDK;
 
 // Example usage
 try {
-
+    $errorMsg = '';
+    $isPaymentSuccessful = false;
     $token = 'OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=';
     $entityId = '8a8294174b7ecb28014b9699220015ca';
     $isProduction = false;
@@ -14,18 +15,19 @@ try {
         $entityId,
         $isProduction
     );
-    $errorMsg = '';
-    // Handle the payment status as needed
+
+    // Handle the payment Registration status as needed
     if (isset(($_GET['id']))) {
         $checkoutId = $_GET['id'];
-
         $responseData = $paymentSDK->getRegistrationStatus($checkoutId);
-        $isPaymentSuccessful = $paymentSDK->isPaymentSuccessful();
-        // print_r($responseData->getApiResponse());
-        if ($isPaymentSuccessful) {
-            $paymentId = $responseData->getId(); // payment id
-            // Form Values defined variable
+        print_r($responseData->getApiResponse());
+        //exit;
+        var_dump($responseData->isRegistrationStatus());
 
+        if ($responseData->isRegistrationStatus()) {
+            $paymentId = $responseData->getId(); // get the payment id
+
+            // Form Values defined variable
             $data = [
                 'paymentBrand' => CatalystPaySDK::PAYMENT_BRAND_VISA,
                 'paymentType' =>  CatalystPaySDK::PAYMENT_TYPE_DEBIT,
@@ -37,15 +39,19 @@ try {
                 'testMode' => CatalystPaySDK::TEST_MODE_EXTERNAL
             ];
 
-            // Prepare Check out form 
+            // Send payment using the token
             $registerPayment = $paymentSDK->sendRegisterPayment($paymentId, $data);
+
+            //check if payment Successful true
+            $isPaymentSuccessful =  $registerPayment->isPaymentSuccessful();
+
             print_r($registerPayment->getApiResponse());
-        }
-        // Check IF payment transaction pending is true
-        if ($paymentSDK->isPaymentTransactionPending($responseData)) {
-            $errorMsg = 'The transaction should be pending, but is ' . $responseData->getResultCode();
-        } elseif ($paymentSDK->isPaymentRequestNotFound($responseData->getResultCode())) { // Check IF payment request not found is true
-            $errorMsg = 'No payment session found for the requested id, but is ' . $responseData->getResultCode();
+            // Check IF payment transaction pending is true
+            if ($registerPayment->isPaymentTransactionPending()) {
+                $errorMsg = 'The transaction should be pending, but is ' . $registerPayment->getResultCode();
+            } elseif ($registerPayment->isPaymentRequestNotFound()) { // Check IF payment request not found is true
+                $errorMsg = 'No payment session found for the requested id, but is ' . $registerPayment->getResultCode();
+            }
         }
     }
 } catch (Exception $e) {
@@ -67,8 +73,10 @@ try {
     <div class="vh-100 d-flex justify-content-center align-items-center">
         <div>
             <?php
+
             // Check if Payment Status Success
             if ($isPaymentSuccessful) {
+
             ?>
 
                 <div class=" mb-4 text-center">

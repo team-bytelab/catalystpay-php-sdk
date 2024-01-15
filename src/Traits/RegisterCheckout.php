@@ -25,7 +25,7 @@ trait RegisterCheckout
         // Form Data
         $baseOptions = "entityId=" . $this->entityId .
             "&testMode=" . $data['testMode'] .
-            "&createRegistration=" .  $this->isCreateRegistration;
+            "&createRegistration=" . $data['createRegistration'];
         $url = $this->baseUrl . CatalystPaySDK::URI_CHECKOUTS;
         $response =  $this->doPOST($url, $baseOptions, $this->isProduction, $this->token);
         return $response;

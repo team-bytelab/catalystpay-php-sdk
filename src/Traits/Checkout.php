@@ -2,7 +2,6 @@
 
 namespace CatalystPay\Traits;
 
-use CatalystPay\CatalystPayResponseCode;
 use CatalystPay\CatalystPaySDK;
 use CatalystPay\Traits\Client\PerformsPOST;
 
@@ -33,16 +32,5 @@ trait Checkout
         $url = $this->baseUrl . CatalystPaySDK::URI_CHECKOUTS;
         $response =  $this->doPOST($url, $baseOptions, $this->isProduction, $this->token);
         return $response;
-    }
-
-    /**
-     * Check if the prepareCheckout request was successful.
-     *
-     * @param $response The API response to check.
-     * @return bool Whether the request was successful.
-     */
-    public function isPrepareCheckoutSuccess($code)
-    {
-        return $code === CatalystPayResponseCode::CREATED_CHECKOUT;
     }
 }

@@ -27,4 +27,9 @@ class CatalystPayResponseCode
      * The response code for a created checkout.
      */
     const CREATED_PAYMENT_STATUS = '000.100.110';
+
+    /**
+     * The response code for a created checkout registration status.
+     */
+    const CREATED_REGISTRATION_STATUS = '000.100.112';
 }

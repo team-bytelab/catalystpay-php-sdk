@@ -180,4 +180,66 @@ class CatalystPayResponse
     {
         return $this->get('id');
     }
+
+    /**
+     * Check if the is Payment request was successful.
+     *
+     * @return bool Whether the request was True|False.
+     */
+    public function isPaymentSuccessful()
+    {
+        $paymentCategories = $this->getResultCodeCategories($this->getResultCode());
+        return in_array(CatalystPayResponse::RESULT_CODE_CAT_SUCCESS_PROCESS, $paymentCategories);
+    }
+
+    /**
+     * Check if the is Payment request not found was true.
+     *
+     * @return bool Whether the request was True|False.
+     */
+    public function isPaymentRequestNotFound()
+    {
+        return $this->getResultCode() === CatalystPayResponseCode::REQUEST_NOT_FOUND;
+    }
+
+    /**
+     * Check if the is Status Success request was successful.
+     *
+     * @return bool Whether the request was True|False.
+     */
+    public function isPaymentStatus()
+    {
+        return $this->getResultCode()  === CatalystPayResponseCode::CREATED_PAYMENT_STATUS;
+    }
+
+    /**
+     * Check if the is Payment Transaction Pending request was true.
+     *
+     * @return bool Whether the request was True|False.
+     */
+    public function isPaymentTransactionPending()
+    {
+
+        return  $this->getResultCode() === CatalystPayResponseCode::TRANSACTION_PENDING;
+    }
+
+    /**
+     * Check if the prepare Checkout request was successful.
+     *
+     * @return bool Whether the request was successful.
+     */
+    public function isCheckoutSuccess()
+    {
+        return $this->getResultCode() === CatalystPayResponseCode::CREATED_CHECKOUT;
+    }
+
+    /**
+     * Check if the is Status Success request was successful.
+     *
+     * @return bool Whether the request was True|False.
+     */
+    public function isRegistrationStatus()
+    {
+        return $this->getResultCode()  === CatalystPayResponseCode::CREATED_REGISTRATION_STATUS;
+    }
 }
