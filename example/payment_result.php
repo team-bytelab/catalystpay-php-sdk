@@ -19,13 +19,18 @@ try {
     if (isset(($_GET['id']))) {
         $checkoutId = $_GET['id'];
         $responseData = $paymentSDK->getPaymentStatus($checkoutId);
-        $isPaymentStatusSuccess = $paymentSDK->isPaymentStatusSuccess($responseData->getResultCode());
+        print_r($responseData->getApiResponse()); // Get payment status response 
+        var_dump($responseData->isPaymentStatus()); // Check  payment status value True or False
 
-        // Check IF payment transaction pending is true
-        if ($paymentSDK->isPaymentTransactionPending($responseData)) {
-            $errorMsg = 'The transaction should be pending, but is ' . $responseData->getResultCode();
-        } elseif ($paymentSDK->isPaymentRequestNotFound($responseData->getResultCode())) { // Check IF payment request not found is true
-            $errorMsg = 'No payment session found for the requested id, but is ' . $responseData->getResultCode();
+        // Check IF payment  status is success 
+        if ($responseData->isPaymentStatus()) {
+
+            // Check IF payment transaction pending is true
+            if ($responseData->isPaymentTransactionPending()) {
+                $errorMsg = 'The transaction should be pending, but is ' . $responseData->getResultCode();
+            } elseif ($responseData->isPaymentRequestNotFound()) { // Check IF payment request not found is true
+                $errorMsg = 'No payment session found for the requested id, but is ' . $responseData->getResultCode();
+            }
         }
     }
 } catch (Exception $e) {
@@ -48,7 +53,7 @@ try {
         <div>
             <?php
             // Check if Payment Status Success
-            if ($isPaymentStatusSuccess) {
+            if ($responseData->isPaymentStatus()) {
             ?>
 
                 <div class=" mb-4 text-center">

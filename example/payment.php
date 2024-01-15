@@ -9,7 +9,7 @@ use CatalystPay\CatalystPaySDK;
 <html lang="en">
 
 <head>
-    <title>Bootstrap Example</title>
+    <title>Payment</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -42,10 +42,8 @@ use CatalystPay\CatalystPaySDK;
 
             //Prepare Check out form 
             $responseData = $paymentSDK->prepareCheckout($amount, $currency, $paymentType);
-            $isPrepareCheckoutSuccess = $paymentSDK->isPrepareCheckoutSuccess($responseData->getResultCode());
-
             // Check if isPrepareCheckoutSuccess is true
-            if ($isPrepareCheckoutSuccess) {
+            if ($responseData->isCheckoutSuccess()) {
                 //Show checkout success
                 $infoMessage = 'The checkout returned ' . $responseData->getResultCode() . ' instead of ' . CatalystPayResponseCode::CREATED_CHECKOUT;
                 $checkoutId = $responseData->getId(); // Assuming the response contains the ID

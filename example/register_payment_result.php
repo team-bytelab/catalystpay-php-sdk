@@ -20,10 +20,10 @@ try {
     if (isset(($_GET['id']))) {
         $checkoutId = $_GET['id'];
         $responseData = $paymentSDK->getRegistrationStatus($checkoutId);
-        print_r($responseData->getApiResponse());
-        //exit;
-        var_dump($responseData->isRegistrationStatus());
+        print_r($responseData->getApiResponse()); // Get payment Registration status response 
+        var_dump($responseData->isRegistrationStatus()); // Check  payment Registration status value True or False
 
+        // Check IF payment registration status is success 
         if ($responseData->isRegistrationStatus()) {
             $paymentId = $responseData->getId(); // get the payment id
 
@@ -45,7 +45,7 @@ try {
             //check if payment Successful true
             $isPaymentSuccessful =  $registerPayment->isPaymentSuccessful();
 
-            print_r($registerPayment->getApiResponse());
+            print_r($registerPayment->getApiResponse()); // Get send payment Registration response
             // Check IF payment transaction pending is true
             if ($registerPayment->isPaymentTransactionPending()) {
                 $errorMsg = 'The transaction should be pending, but is ' . $registerPayment->getResultCode();
