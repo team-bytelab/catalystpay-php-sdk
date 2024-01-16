@@ -40,7 +40,7 @@ try {
             ];
 
             // Send payment using the token
-            $registerPayment = $paymentSDK->sendRegisterPayment($paymentId, $data);
+            $registerPayment = $paymentSDK->sendRegistrationTokenPayment($paymentId, $data);
 
             //check if payment Successful true
             $isPaymentSuccessful =  $registerPayment->isPaymentSuccessful();

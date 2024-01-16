@@ -6,10 +6,10 @@ use CatalystPay\CatalystPaySDK;
 use CatalystPay\Traits\Client\PerformsGET;
 
 /**
- * Trait CopyAndPay
- * This trait provides methods to interact with the CatalystPay Copy and Pay API.
+ * Trait CreateCopyAndPayForm
+ * This trait provides methods to interact with the CatalystPay Create the payment form COPYandPAY  API.
  */
-trait CopyAndPay
+trait CreateCopyAndPayForm
 {
     use PerformsGET;
 

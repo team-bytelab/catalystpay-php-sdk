@@ -209,7 +209,7 @@ class CatalystPayResponse
      */
     public function isPaymentStatus()
     {
-        return $this->getResultCode()  === CatalystPayResponseCode::CREATED_PAYMENT_STATUS;
+        return $this->getResultCode()  === CatalystPayResponseCode::CREATED_PAYMENT;
     }
 
     /**
@@ -240,6 +240,16 @@ class CatalystPayResponse
      */
     public function isRegistrationStatus()
     {
-        return $this->getResultCode()  === CatalystPayResponseCode::CREATED_REGISTRATION_STATUS;
+        return $this->getResultCode()  === CatalystPayResponseCode::CREATED_REGISTRATION_TOKEN;
+    }
+
+    /**
+     * Get the redirect from the parsed JSON response.
+     *
+     * @return mixed|null The redirect, or null if not found.
+     */
+    public function getRedirect()
+    {
+        return $this->get('redirect');
     }
 }

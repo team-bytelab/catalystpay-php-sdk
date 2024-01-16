@@ -24,12 +24,12 @@ class CatalystPayResponseCode
     const REQUEST_NOT_FOUND = '200.300.404';
 
     /**
-     * The response code for a created checkout.
+     * The response code for a created payment.
      */
-    const CREATED_PAYMENT_STATUS = '000.100.110';
+    const CREATED_PAYMENT = '000.100.110';
 
     /**
-     * The response code for a created checkout registration status.
+     * The response code for a created checkout registration token.
      */
-    const CREATED_REGISTRATION_STATUS = '000.100.112';
+    const CREATED_REGISTRATION_TOKEN = '000.100.112';
 }

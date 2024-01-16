@@ -6,10 +6,10 @@ use CatalystPay\CatalystPaySDK;
 use CatalystPay\Traits\Client\PerformsGET;
 
 /**
- * Trait CreateRegistrationForm
- * This trait provides methods to interact with the CatalystPay Registration Form API.
+ * Trait CreateRegistrationTokenForm
+ * This trait provides methods to interact with the CatalystPay Registration Token Form API.
  */
-trait CreateRegistrationForm
+trait CreateRegistrationTokenForm
 {
     use PerformsGET;
 

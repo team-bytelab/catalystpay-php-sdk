@@ -2,18 +2,17 @@
 
 namespace CatalystPay;
 
-use CatalystPay\Traits\Checkout;
-use CatalystPay\Traits\CopyAndPay;
-use CatalystPay\Traits\CreateRegistrationForm;
-use CatalystPay\Traits\Payment;
-use CatalystPay\Traits\RegisterCheckout;
+use CatalystPay\Traits\CopyAndPayCheckout;
+use CatalystPay\Traits\CreateCopyAndPayForm;
+use CatalystPay\Traits\CreateRegistrationTokenForm;
+use CatalystPay\Traits\RegistrationTokens;
 
 /**
  * CatalystPaySDK class for handling payment operations.
  */
 class CatalystPaySDK
 {
-    use Checkout, CopyAndPay, Payment, RegisterCheckout, CreateRegistrationForm;
+    use CopyAndPayCheckout, CreateCopyAndPayForm, RegistrationTokens, CreateRegistrationTokenForm;
 
     /** @var string The base URL for API requests. */
     private $baseUrl;
