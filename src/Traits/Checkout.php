@@ -25,10 +25,13 @@ trait Checkout
     public function prepareCheckout($amount, $currency, $paymentType)
     {
         // Form Data
-        $baseOptions = "entityId=" . $this->entityId .
-            "&amount=" .  $amount .
-            "&currency=" . $currency .
-            "&paymentType=" . $paymentType;
+        $baseOptions = [
+            "entityId" => $this->entityId,
+            "amount" => $amount,
+            "currency" => $currency,
+            "paymentType" => $paymentType,
+        ];
+
         $url = $this->baseUrl . CatalystPaySDK::URI_CHECKOUTS;
         $response =  $this->doPOST($url, $baseOptions, $this->isProduction, $this->token);
         return $response;

@@ -23,9 +23,11 @@ trait RegisterCheckout
     public function prepareRegisterCheckout($data)
     {
         // Form Data
-        $baseOptions = "entityId=" . $this->entityId .
-            "&testMode=" . $data['testMode'] .
-            "&createRegistration=" . $data['createRegistration'];
+        $baseOptions = [
+            "entityId" => $this->entityId,
+            "testMode" => $data['testMode'],
+            "createRegistration" => $data['createRegistration'],
+        ];
         $url = $this->baseUrl . CatalystPaySDK::URI_CHECKOUTS;
         $response =  $this->doPOST($url, $baseOptions, $this->isProduction, $this->token);
         return $response;
@@ -41,16 +43,17 @@ trait RegisterCheckout
     public function sendRegisterPayment($paymentId, $data = [])
     {
         // Form Data
-        $baseOptions = "entityId=" . $this->entityId .
-            "&paymentBrand=" . $data['paymentBrand'] .
-            "&paymentType=" . $data['paymentType'] .
-            "&amount=" . $data['amount'] .
-            "&currency=" . $data['currency'] .
-            "&standingInstruction.type=" . $data['standingInstructionType'] .
-            "&standingInstruction.mode=" . $data['standingInstructionMode'] .
-            "&standingInstruction.source=" . $data['standingInstructionSource'] .
-            "&testMode=" . $data['testMode'];
-
+        $baseOptions = [
+            "entityId" => $this->entityId,
+            "paymentBrand" => $data['paymentBrand'],
+            "paymentType" => $data['paymentType'],
+            "amount" => $data['amount'],
+            "currency" => $data['currency'],
+            "standingInstruction.type" => $data['standingInstructionType'],
+            "standingInstruction.mode" => $data['standingInstructionMode'],
+            "standingInstruction.source" => $data['standingInstructionSource'],
+            "testMode" => $data['testMode']
+        ];
 
         $url = $this->getRegisterPaymentUrl($paymentId);
         $response =  $this->doPOST($url, $baseOptions, $this->isProduction, $this->token);
