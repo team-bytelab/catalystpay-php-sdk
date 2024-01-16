@@ -35,7 +35,7 @@ trait PerformsPOST
         curl_setopt($ch, CURLOPT_POST, 1);
 
         // Set the POST data to be sent with the request
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
 
         // Set SSL verification based on the mode (true for production, false for testing)
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $isProduction);
