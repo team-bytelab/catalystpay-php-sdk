@@ -6,13 +6,14 @@ use CatalystPay\Traits\CopyAndPayCheckout;
 use CatalystPay\Traits\CreateCopyAndPayForm;
 use CatalystPay\Traits\CreateRegistrationTokenForm;
 use CatalystPay\Traits\RegistrationTokens;
+use CatalystPay\Traits\TransactionReports;
 
 /**
  * CatalystPaySDK class for handling payment operations.
  */
 class CatalystPaySDK
 {
-    use CopyAndPayCheckout, CreateCopyAndPayForm, RegistrationTokens, CreateRegistrationTokenForm;
+    use CopyAndPayCheckout, CreateCopyAndPayForm, RegistrationTokens, CreateRegistrationTokenForm, TransactionReports;
 
     /** @var string The base URL for API requests. */
     private $baseUrl;
@@ -40,6 +41,7 @@ class CatalystPaySDK
     const URI_REGISTRATIONS = "/v1/registrations";
     const URI_PAYMENT = '/payment';
     const URI_PAYMENTS = '/payments';
+    const URI_TRANSACTION_REPORTS = "/v3/query";
     const DEVELOPMENT_URL = "https://eu-test.oppwa.com";
     const PRODUCTION_URL = "https://eu-prod.oppwa.com";
 
@@ -72,7 +74,7 @@ class CatalystPaySDK
      * @param string $entityId The entity ID for the payment.
      * @param bool   $isProduction     The isProduction indicating whether to use SSL verification in requests.
      */
-    public function __construct($token, $entityId, $isProduction = false, $isCreateRegistration = false)
+    public function __construct($token, $entityId, $isProduction = false)
     {
         //Check if is DEVELOPMENT server
         if ($isProduction === false) {
