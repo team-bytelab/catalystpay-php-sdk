@@ -7,6 +7,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
+            "Tests\\": "tests/",
             "CatalystPay\\": "src/"
         }
     },
@@ -16,6 +17,7 @@
             "email": "support@catalystpay.com"
         }
     ],
-    "require": { }
-    
+    "require-dev": {
+        "phpunit/phpunit": "^9.5.10"
+    }
 }

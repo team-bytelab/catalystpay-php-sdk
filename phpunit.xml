@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite name="CatalystPayIntegration">
+            <directory suffix="Test.php">./tests/CatalystPayIntegration</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <env name="CATALYST_PAY_TOKEN" value="OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=" />        
+        <env name="CATALYST_PAY_ENTITY_ID" value="8a8294174b7ecb28014b9699220015ca" />
+        <env name="CATALYST_PAY_IS_PRODUCTION" value="false" />
+    </php>
+</phpunit>

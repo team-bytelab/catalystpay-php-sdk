@@ -72,7 +72,7 @@ class CatalystPaySDK
      * @param string $entityId The entity ID for the payment.
      * @param bool   $isProduction     The isProduction indicating whether to use SSL verification in requests.
      */
-    public function __construct($token, $entityId, $isProduction = false, $isCreateRegistration = false)
+    public function __construct($token, $entityId, $isProduction = false)
     {
         //Check if is DEVELOPMENT server
         if ($isProduction === false) {
