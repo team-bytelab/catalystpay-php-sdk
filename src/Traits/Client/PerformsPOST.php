@@ -23,7 +23,7 @@ trait PerformsPOST
      *
      * @throws \Exception If an error occurs during the request.
      */
-    private static function doPOST($url, $data = [], $isProduction, $token)
+    private static function doPOST($url, $data, $isProduction, $token)
     {
         // Initialize a new cURL session
         $ch = curl_init();
