@@ -39,6 +39,19 @@ trait CopyAndPayCheckout
     }
 
     /**
+     * Payment with card.
+     *
+     * @param array  $data  The payment data like amount,currency paymentType etc.
+     * @return array The decoded JSON response.
+     */
+    public function payCard($data = [])
+    {
+        $data['entityId'] = $this->entityId;
+        $url = $this->baseUrl . '/v1' . CatalystPaySDK::URI_PAYMENTS;
+        $response =  $this->doPOST($url, $data, $this->isProduction, $this->token);
+        return $response;
+    }
+    /**
      * Get the payment status for a checkout.
      *
      * @param string $checkoutId The ID of the checkout.

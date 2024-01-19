@@ -13,13 +13,9 @@ abstract class TestCase extends BaseTestCase
 		$catalystPayConfig = new CatalystPaySDK(
 			getenv('CATALYST_PAY_TOKEN'),
 			getenv('CATALYST_PAY_ENTITY_ID'),
-			getenv('CATALYST_PAY_IS_PRODUCTION')
+			(bool) getenv('CATALYST_PAY_IS_PRODUCTION')
+
 		);
-		// $catalystPayConfig = [
-		// 	getenv('CATALYST_PAY_TOKEN'),
-		// 	getenv('CATALYST_PAY_ENTITY_ID'),
-		// 	false
-		// ];
 		return $catalystPayConfig;
 	}
 }
