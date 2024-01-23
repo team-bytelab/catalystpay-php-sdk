@@ -6,6 +6,7 @@ use CatalystPay\Traits\CopyAndPayCheckout;
 use CatalystPay\Traits\CreateCopyAndPayForm;
 use CatalystPay\Traits\CreateRegistrationTokenForm;
 use CatalystPay\Traits\RegistrationTokens;
+use CatalystPay\Traits\SettlementReports;
 use CatalystPay\Traits\TransactionReports;
 
 /**
@@ -13,7 +14,7 @@ use CatalystPay\Traits\TransactionReports;
  */
 class CatalystPaySDK
 {
-    use CopyAndPayCheckout, CreateCopyAndPayForm, RegistrationTokens, CreateRegistrationTokenForm, TransactionReports;
+    use CopyAndPayCheckout, CreateCopyAndPayForm, RegistrationTokens, CreateRegistrationTokenForm, TransactionReports, SettlementReports;
 
     /** @var string The base URL for API requests. */
     private $baseUrl;
@@ -42,6 +43,8 @@ class CatalystPaySDK
     const URI_PAYMENT = '/payment';
     const URI_PAYMENTS = '/payments';
     const URI_TRANSACTION_REPORTS = "/v3/query";
+    const URI_SETTLEMENT_REPORTS = "/reports/v1/reconciliations/aggregations";
+    const URI_SETTLEMENT_REPORTS_PAGINATION = "/reports/v2/reconciliations/aggregations";
     const DEVELOPMENT_URL = "https://eu-test.oppwa.com";
     const PRODUCTION_URL = "https://eu-prod.oppwa.com";
 
@@ -60,6 +63,7 @@ class CatalystPaySDK
 
     // Constants for various testMode
     const TEST_MODE_EXTERNAL = 'EXTERNAL';
+    const TEST_MODE_INTERNAL = 'INTERNAL';
 
     // Constants for various standing instruction
     const STANDING_INSTRUCTION_TYPE_UNSCHEDULED = 'UNSCHEDULED';
