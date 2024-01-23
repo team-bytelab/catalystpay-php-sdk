@@ -43,7 +43,7 @@ try {
             $registerPayment = $paymentSDK->sendRegistrationTokenPayment($paymentId, $data);
 
             //check if payment Successful true
-            $isPaymentSuccessful =  $registerPayment->isPaymentSuccessful();
+            $isPaymentSuccessful =  $registerPayment->isSuccessful();
 
             print_r($registerPayment->getApiResponse()); // Get send payment Registration response
             // Check IF payment transaction pending is true

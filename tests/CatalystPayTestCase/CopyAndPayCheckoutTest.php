@@ -42,7 +42,7 @@ class CopyAndPayCheckoutTest extends TestCase
 
         //payment with card
         $payCardRequest = $catalystPay->payCard($cardData);
-        $this->assertTrue($payCardRequest->isPaymentSuccessful(), 'The payment was not successful and should have been');
+        $this->assertTrue($payCardRequest->isSuccessful(), 'The payment was not successful and should have been');
 
         // Get the payment status
         $paymentStatusResponse = $catalystPay->getPaymentStatus($response->getId());

@@ -182,14 +182,14 @@ class CatalystPayResponse
     }
 
     /**
-     * Check if the is Payment request was successful.
+     * Check if the is request was successful.
      *
      * @return bool Whether the request was True|False.
      */
-    public function isPaymentSuccessful()
+    public function isSuccessful()
     {
-        $paymentCategories = $this->getResultCodeCategories($this->getResultCode());
-        return in_array(CatalystPayResponse::RESULT_CODE_CAT_SUCCESS_PROCESS, $paymentCategories);
+        $categories = $this->getResultCodeCategories($this->getResultCode());
+        return in_array(CatalystPayResponse::RESULT_CODE_CAT_SUCCESS_PROCESS, $categories);
     }
 
     /**
