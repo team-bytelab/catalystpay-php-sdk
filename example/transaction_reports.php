@@ -21,16 +21,16 @@ try {
     print_r($responseData->getApiResponse()); // Get Transaction response 
 
     // Get Transaction by merchant ID 
-    $transactionMerchant = $paymentSDK->getTransactionByFilter('test123');
+    $transactionMerchant = $paymentSDK->getMerchantTransactionById('test123');
     print_r($transactionMerchant->getApiResponse());
 
     // Get transactions for a specified time frame
-    $transactionSpecifiedTimeFrame = $paymentSDK->getTransactionByFilter('', '2023-01-01 00:00:00', '2023-01-01 01:00:00', 20);
+    $transactionSpecifiedTimeFrame = $paymentSDK->getTransactionByDateFilter('2023-01-01 00:00:00', '2023-01-01 01:00:00', 20);
     print_r($transactionSpecifiedTimeFrame->getApiResponse());
 
     // Get transactions for a specified time frame with pagination
-    $transactionPagination = $paymentSDK->getTransactionByFilter('', '2023-01-01 00:00:00', '2023-01-01 01:00:00', '', 2);
-    print_r($transactionPagination->getApiResponse());
+    $transactionPagination = $paymentSDK->getTransactionByDateWithPagination('2023-01-01 00:00:00', '2023-01-01 01:00:00',  2);
+    print_r($transactionPagination);
 } catch (Exception $e) {
     echo  $e->getMessage();
 }

@@ -33,17 +33,13 @@ trait TransactionReports
     }
 
     /**
-     * Get transaction using your filter reference.
+     * Get merchant transaction using id reference.
      *
-     * @param string $merchantTransactionId The ID of the merchant transaction.
-     * @param string $dateFrom The dateFrom of the merchant transaction.
-     * @param string $dateTo The dateTo of the merchant transaction.
-     * @param int $limit The limit of the merchant transaction.
-     * @param int $pageNo The pageNo of the merchant transaction.
+     * @param string $merchantTransactionId The ID of the merchant transaction. 
      * 
      * @return string $response.
      */
-    public function getTransactionByFilter($merchantTransactionId = '', $dateFrom = '', $dateTo = '', $limit = 0, $pageNo = 0)
+    public function getMerchantTransactionById($merchantTransactionId = '')
     {
         $query = '';
 
@@ -51,6 +47,23 @@ trait TransactionReports
         if (!empty($merchantTransactionId)) {
             $query = "&merchantTransactionId=" . $merchantTransactionId;
         }
+
+        $url = $this->baseUrl . CatalystPaySDK::URI_TRANSACTION_REPORTS . '?' . $query . '&entityId=' . $this->entityId;
+        return $this->doGET($url, $this->isProduction, $this->token);
+    }
+
+    /**
+     * Get transactions for a specified time frame.
+     *
+     * @param string $dateFrom The dateFrom of the merchant transaction.
+     * @param string $dateTo The dateTo of the merchant transaction.
+     * @param int $limit The limit of the merchant transaction.
+     * 
+     * @return string $response.
+     */
+    public function getTransactionByDateFilter($dateFrom = '', $dateTo = '', $limit = 0)
+    {
+        $query = '';
 
         // Check  specified time frame
         if (!empty($dateFrom) && !empty($dateTo)) {
@@ -62,12 +75,40 @@ trait TransactionReports
             $query .= "&limit=" . $limit;
         }
 
-        //Check pagination no
-        if (!empty($pageNo) && $pageNo > 0) {
-            $query = "&pageNo=" . $pageNo;
+        $url = $this->baseUrl . CatalystPaySDK::URI_TRANSACTION_REPORTS . '?' . $query . '&entityId=' . $this->entityId;
+        return $this->doGET($url, $this->isProduction, $this->token);
+    }
+
+    /**
+     * Get transactions for a specified time frame with pagination.
+     *
+     * @param string $dateFrom The dateFrom of the merchant transaction.
+     * @param string $dateTo The dateTo of the merchant transaction.
+     * @param int $limit The limit of the merchant transaction.
+     * 
+     * @return string $response.
+     */
+    public function getTransactionByDateWithPagination($dateFrom = '', $dateTo = '', $pageNo = 0)
+    {
+        $query = '';
+
+        // Check  specified time frame
+        if (!empty($dateFrom) && !empty($dateTo)) {
+            $query .= "date.from=" . $dateFrom . "&date.to=" . $dateTo;
         }
 
-        $url = $this->baseUrl . CatalystPaySDK::URI_TRANSACTION_REPORTS . '?' . $query . '&entityId=' . $this->entityId;
+        //Check pagination no
+        if (!empty($pageNo) && $pageNo > 0) {
+            $query .= "&pageNo=" . $pageNo;
+        }
+
+        // $url = $this->baseUrl . CatalystPaySDK::URI_TRANSACTION_REPORTS . '?' . $query . '&entityId=' . $this->entityId;
+        $url = "https://eu-test.oppwa.com/v3/query";
+        $url .= "?date.from=2023-01-01 00:00:00";
+        $url .=    "&date.to=2023-01-01 01:00:00";
+        $url .=    "&pageNo=2";
+        $url .=    "&entityId=8a8294174b7ecb28014b9699220015ca";
+
         return $this->doGET($url, $this->isProduction, $this->token);
     }
 }
