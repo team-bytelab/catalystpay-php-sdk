@@ -45,7 +45,7 @@ trait TransactionReports
 
         // Check merchant transaction id
         if (!empty($merchantTransactionId)) {
-            $query = "&merchantTransactionId=" . $merchantTransactionId;
+            $query = "merchantTransactionId=" . $merchantTransactionId;
         }
 
         $url = $this->baseUrl . CatalystPaySDK::URI_TRANSACTION_REPORTS . '?' . $query . '&entityId=' . $this->entityId;
@@ -67,7 +67,7 @@ trait TransactionReports
 
         // Check  specified time frame
         if (!empty($dateFrom) && !empty($dateTo)) {
-            $query .= "&date.from=" . $dateFrom . "&date.to=" . $dateTo;
+            $query .= "date.from=" . $dateFrom . "&date.to=" . $dateTo;
         }
 
         //Check limit
@@ -76,6 +76,7 @@ trait TransactionReports
         }
 
         $url = $this->baseUrl . CatalystPaySDK::URI_TRANSACTION_REPORTS . '?' . $query . '&entityId=' . $this->entityId;
+        echo $url;
         return $this->doGET($url, $this->isProduction, $this->token);
     }
 

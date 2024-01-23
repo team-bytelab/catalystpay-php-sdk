@@ -29,7 +29,7 @@ trait SettlementReports
 
         // Check  specified time frame
         if (!empty($dateFrom) && !empty($dateTo)) {
-            $query .= "&date.from=" . $dateFrom . "&date.to=" . $dateTo;
+            $query .= "date.from=" . $dateFrom . "&date.to=" . $dateTo;
         }
 
         //Check currency
