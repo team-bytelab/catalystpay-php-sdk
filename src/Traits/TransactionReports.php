@@ -67,7 +67,7 @@ trait TransactionReports
 
         // Check  specified time frame
         if (!empty($dateFrom) && !empty($dateTo)) {
-            $query .= "date.from=" . $dateFrom . "&date.to=" . $dateTo;
+            $query .= "date.from=" . urlencode($dateFrom) . "&date.to=" . urlencode($dateTo);
         }
 
         //Check limit
@@ -76,7 +76,6 @@ trait TransactionReports
         }
 
         $url = $this->baseUrl . CatalystPaySDK::URI_TRANSACTION_REPORTS . '?' . $query . '&entityId=' . $this->entityId;
-        echo $url;
         return $this->doGET($url, $this->isProduction, $this->token);
     }
 
@@ -95,7 +94,7 @@ trait TransactionReports
 
         // Check  specified time frame
         if (!empty($dateFrom) && !empty($dateTo)) {
-            $query .= "date.from=" . $dateFrom . "&date.to=" . $dateTo;
+            $query .= "date.from=" . urlencode($dateFrom) . "&date.to=" . urlencode($dateTo);
         }
 
         //Check pagination no
@@ -103,13 +102,7 @@ trait TransactionReports
             $query .= "&pageNo=" . $pageNo;
         }
 
-        // $url = $this->baseUrl . CatalystPaySDK::URI_TRANSACTION_REPORTS . '?' . $query . '&entityId=' . $this->entityId;
-        $url = "https://eu-test.oppwa.com/v3/query";
-        $url .= "?date.from=2023-01-01 00:00:00";
-        $url .=    "&date.to=2023-01-01 01:00:00";
-        $url .=    "&pageNo=2";
-        $url .=    "&entityId=8a8294174b7ecb28014b9699220015ca";
-
+        $url = $this->baseUrl . CatalystPaySDK::URI_TRANSACTION_REPORTS . '?' . $query . '&entityId=' . $this->entityId;
         return $this->doGET($url, $this->isProduction, $this->token);
     }
 }

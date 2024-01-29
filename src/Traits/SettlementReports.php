@@ -49,7 +49,7 @@ trait SettlementReports
     }
 
     /**
-     * Get further details for a particular aggregation id .
+     * Get detail Level for a particular aggregation id.
      *
      * @param string $id The ID of the settlement report.
      * @param string $testMode The testMode of the settlement report .
@@ -70,7 +70,7 @@ trait SettlementReports
     }
 
     /**
-     * Get further details for a particular aggregation id with pagination .
+     * Get Detail Level with Pagination .
      *
      * @param string $id The ID of the settlement report.
      * @param string $testMode The testMode of the settlement report .
