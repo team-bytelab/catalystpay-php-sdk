@@ -10,7 +10,7 @@ try {
     $token = 'OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=';
     $entityId = '8a8294174b7ecb28014b9699220015ca';
     $isProduction = false;
-    $paymentSDK = new CatalystPaySDK(
+    $catalystPaySDK = new CatalystPaySDK(
         $token,
         $entityId,
         $isProduction
@@ -19,7 +19,7 @@ try {
     // Handle the payment Registration status as needed
     if (isset(($_GET['id']))) {
         $checkoutId = $_GET['id'];
-        $responseData = $paymentSDK->getRegistrationStatus($checkoutId);
+        $responseData = $catalystPaySDK->getRegistrationStatus($checkoutId);
         print_r($responseData->getApiResponse()); // Get payment Registration status response 
         var_dump($responseData->isRegistrationStatus()); // Check  payment Registration status value True or False
 
@@ -40,7 +40,7 @@ try {
             ];
 
             // Send payment using the token
-            $registerPayment = $paymentSDK->sendRegistrationTokenPayment($paymentId, $data);
+            $registerPayment = $catalystPaySDK->sendRegistrationTokenPayment($paymentId, $data);
 
             //check if payment Successful true
             $isPaymentSuccessful =  $registerPayment->isSuccessful();

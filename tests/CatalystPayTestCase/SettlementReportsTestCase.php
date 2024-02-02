@@ -13,7 +13,7 @@ class SettlementReportsTestCase extends TestCase
     public function testGetDetailLevelById()
     {
         $catalystPay =  $this->getCatalystPayConfig();
-        $response = $catalystPay->getDetailLevelById('8a82944a4cc25ebf014cc2c782423202', CatalystPaySDK::TEST_MODE_INTERNAL);
+        $response = $catalystPay->getDetailLevelById(['id' => '8a82944a4cc25ebf014cc2c782423202', 'sortValue' => 'SettlementTxDate', 'sortOrder' => 'ASC', 'testMode' => CatalystPaySDK::TEST_MODE_INTERNAL]);
 
         // assert
         $this->assertTrue($response->isSuccessful(), 'The get detail Level by id returned ' . $response->getResultCode());
@@ -25,7 +25,7 @@ class SettlementReportsTestCase extends TestCase
     public function testGetSettlementReportBySummary()
     {
         $catalystPay =  $this->getCatalystPayConfig();
-        $response = $catalystPay->getSettlementReportBySummary('2015-08-01', '2015-08-02', 'EUR', CatalystPaySDK::TEST_MODE_INTERNAL);
+        $response = $catalystPay->getSettlementReportBySummary(['dateFrom' => '2015-08-01', 'dateTo' => '2015-08-02', 'currency' => 'EUR', 'testMode' => CatalystPaySDK::TEST_MODE_INTERNAL]);
 
         // assert
         $this->assertTrue($response->isSuccessful(), 'The get summary level information for a certain date and/or settlement currency' . $response->getResultCode());
@@ -37,7 +37,7 @@ class SettlementReportsTestCase extends TestCase
     public function testGetDetailLevelByIdWithPagination()
     {
         $catalystPay =  $this->getCatalystPayConfig();
-        $response = $catalystPay->getDetailLevelByIdWithPagination('8a82944a4cc25ebf014cc2c782423202', CatalystPaySDK::TEST_MODE_INTERNAL, 2);
+        $response = $catalystPay->getDetailLevelByIdWithPagination(['id' => '8a82944a4cc25ebf014cc2c782423202', 'reconciliationType' => 'SETTLED', 'testMode' => CatalystPaySDK::TEST_MODE_INTERNAL, "pageNo" => 2]);
 
         // assert
         $this->assertTrue($response->isSuccessful(), 'The get detail level pagination returned ' . $response->getResultCode());

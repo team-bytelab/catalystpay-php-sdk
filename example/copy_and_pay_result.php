@@ -9,7 +9,7 @@ try {
     $token = 'OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=';
     $entityId = '8a8294174b7ecb28014b9699220015ca';
     $isProduction = false;
-    $paymentSDK = new CatalystPaySDK(
+    $catalystPaySDK = new CatalystPaySDK(
         $token,
         $entityId,
         $isProduction
@@ -18,7 +18,7 @@ try {
     // Handle the payment status as needed
     if (isset(($_GET['id']))) {
         $checkoutId = $_GET['id'];
-        $responseData = $paymentSDK->getPaymentStatus($checkoutId);
+        $responseData = $catalystPaySDK->getPaymentStatus($checkoutId);
         print_r($responseData->getApiResponse()); // Get payment status response 
         var_dump($responseData->isPaymentStatus()); // Check  payment status value True or False
 
@@ -44,7 +44,7 @@ try {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thank You - Payment</title>
+    <title>Thank You - CopyAndPay</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 

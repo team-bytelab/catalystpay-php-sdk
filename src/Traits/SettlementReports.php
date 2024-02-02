@@ -15,31 +15,28 @@ trait SettlementReports
 
     /**
      * Get summary level information for a certain date and/or settlement currency .
-     *
-     * @param string $dateFrom The dateFrom of the settlement report.
-     * @param string $dateTo The dateTo of the settlement report.
-     * @param string $currency The currency of the settlement report.
-     * @param string $testMode The testMode of the settlement report.
+     * 
+     * @param array  $data  The settlement data like dateFrom, dateTo, currency ,testMode etc.
      * 
      * @return string $response.
      */
-    public function getSettlementReportBySummary($dateFrom = '', $dateTo = '',  $currency = 'EUR', $testMode = '')
+    public function getSettlementReportBySummary($data = [])
     {
         $query = '';
 
         // Check  specified time frame
-        if (!empty($dateFrom) && !empty($dateTo)) {
-            $query .= "date.from=" . $dateFrom . "&date.to=" . $dateTo;
+        if (!empty($data['dateFrom']) && !empty($data['dateTo'])) {
+            $query .= "date.from=" . urlencode($data['dateFrom']) . "&date.to=" . urlencode($data['dateTo']);
         }
 
         //Check currency
-        if (!empty($currency)) {
-            $query .= "&currency=" . $currency;
+        if (!empty($data['currency'])) {
+            $query .= "&currency=" . $data['currency'];
         }
 
         //Check testMode
-        if (!empty($testMode)) {
-            $query .= "&testMode=" . $testMode;
+        if (!empty($data['testMode'])) {
+            $query .= "&testMode=" . $data['testMode'];
         }
 
         $url = $this->baseUrl . CatalystPaySDK::URI_SETTLEMENT_REPORTS . '?' . $query . '&entityId=' . $this->entityId;
@@ -50,48 +47,61 @@ trait SettlementReports
 
     /**
      * Get detail Level for a particular aggregation id.
-     *
-     * @param string $id The ID of the settlement report.
-     * @param string $testMode The testMode of the settlement report .
+     * 
+     * @param array  $data  The settlement data like id,testMode etc.
      * 
      * @return string $response.
      */
-    public function getDetailLevelById($id, $testMode = '')
+    public function getDetailLevelById($data = [])
     {
         $query = '';
 
         //Check testMode
-        if (!empty($testMode)) {
-            $query .= "&testMode=" . $testMode;
+        if (!empty($data['testMode'])) {
+            $query .= "&testMode=" . $data['testMode'];
         }
 
-        $url = $this->baseUrl . CatalystPaySDK::URI_SETTLEMENT_REPORTS . '/' . $id . '?entityId=' . $this->entityId . $query;
+        //Check sortValue
+        if (!empty($data['sortValue'])) {
+            $query .= "&sortValue=" . $data['sortValue'];
+        }
+
+        //Check sortOrder
+        if (!empty($data['sortOrder'])) {
+            $query .= "&sortOrder=" . $data['sortOrder'];
+        }
+
+        $url = $this->baseUrl . CatalystPaySDK::URI_SETTLEMENT_REPORTS . '/' . $data['id'] . '?entityId=' . $this->entityId . $query;
         return $this->doGET($url, $this->isProduction, $this->token);
     }
 
     /**
      * Get Detail Level with Pagination .
      *
-     * @param string $id The ID of the settlement report.
-     * @param string $testMode The testMode of the settlement report .
-     * @param int $pageNo The pageNo of the settlement report.
+     *  @param array  $data  The settlement data like id,testMode , pageNo etc.
      * 
      * @return string $response.
      */
-    public function getDetailLevelByIdWithPagination($id, $testMode = '', $pageNo = 0)
+    public function getDetailLevelByIdWithPagination($data = [])
     {
         $query = '';
 
         //Check testMode
-        if (!empty($testMode)) {
-            $query .= "&testMode=" . $testMode;
-        }
-        //Check pagination no
-        if (!empty($pageNo) && $pageNo > 0) {
-            $query .= "&pageNo=" . $pageNo;
+        if (!empty($data['testMode'])) {
+            $query .= "&testMode=" . $data['testMode'];
         }
 
-        $url = $this->baseUrl . CatalystPaySDK::URI_SETTLEMENT_REPORTS_PAGINATION . '/' . $id . '?entityId=' . $this->entityId . $query;
+        //Check reconciliationType
+        if (!empty($data['reconciliationType']) && $data['reconciliationType'] > 0) {
+            $query .= "&reconciliationType=" . $data['reconciliationType'];
+        }
+
+        //Check pagination no
+        if (!empty($data['pageNo']) && $data['pageNo'] > 0) {
+            $query .= "&pageNo=" . $data['pageNo'];
+        }
+
+        $url = $this->baseUrl . CatalystPaySDK::URI_SETTLEMENT_REPORTS_PAGINATION . '/' . $data['id'] . '?entityId=' . $this->entityId . $query;
         return $this->doGET($url, $this->isProduction, $this->token);
     }
 }

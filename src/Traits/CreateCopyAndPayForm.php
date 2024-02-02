@@ -16,14 +16,14 @@ trait CreateCopyAndPayForm
     /**
      * Create a payment form HTML with Copy and Pay script.
      *
-     * @param string $checkoutId The ID of the checkout.
-     * @param string $shopperResultUrl The URL to redirect the shopper after payment.
-     * @param array $dataBrands The payment brands to display (optional).
+     * @param array array  $data  The payment data like checkoutId,shopperResultUrl , dataBrands ,wpwlOptions.
+     * 
      * @return string The HTML form with payment widgets.
      */
-    public function createPaymentForm($checkoutId, $shopperResultUrl, $dataBrands = [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX])
+    public function createPaymentForm($data = [])
     {
-        return $this->getCopyAndPayScript($checkoutId) . $this->getPaymentForm($shopperResultUrl, $dataBrands);
+        $wpwlOptions = $data['wpwlOptions'] ?? "";
+        return $this->getCopyAndPayScript($data['checkoutId'], $wpwlOptions) . $this->getPaymentForm($data['shopperResultUrl'], $data['dataBrands']);
     }
 
     /**
@@ -33,7 +33,7 @@ trait CreateCopyAndPayForm
      * @param array $dataBrands The payment brands to display (optional).
      * @return string The HTML form with payment widgets.
      */
-    public function getPaymentForm($shopperResultUrl = '', $dataBrands = [])
+    public function getPaymentForm($shopperResultUrl = '', $dataBrands = [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX])
     {
         // If dataBrands is not empty, convert it to a comma-separated string/ If dataBrands is not empty, convert it to a comma-separated string
         if (!empty($dataBrands)) {
@@ -47,13 +47,20 @@ trait CreateCopyAndPayForm
      * Get the Copy and Pay script HTML with the specified checkout ID.
      *
      * @param string $checkoutId The ID of the checkout.
+     * @param string $wpwlOptions The payment form can be changed by setting.
+     * 
      * @return string The HTML script tag for the Copy and Pay script.
      */
-    public function getCopyAndPayScript($checkoutId)
+    public function getCopyAndPayScript($checkoutId, $wpwlOptions = '')
     {
-        return '<script src='
+        $html = '';
+        if ($wpwlOptions) {
+            $html .= '<script>var wpwlOptions =' . $wpwlOptions . ' </script>';
+        }
+        $html .= '<script src='
             . '"' . $this->getCopyAndPayScriptUrl($checkoutId) . '"'
             . '></script>';
+        return $html;
     }
 
     /**

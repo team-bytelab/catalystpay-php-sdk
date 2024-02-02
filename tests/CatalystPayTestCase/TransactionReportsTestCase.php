@@ -12,7 +12,7 @@ class TransactionReportsTestCase extends TestCase
     public function testGetTransactionById()
     {
         $catalystPay =  $this->getCatalystPayConfig();
-        $response = $catalystPay->getTransactionById('8ac7a4a1845f7e19018461a00b366a74', 'true', 'DB,3D');
+        $response = $catalystPay->getTransactionById(['id' => '8ac7a4a1845f7e19018461a00b366a74', 'includeLinkedTransactions' => 'true', 'paymentTypes' => 'DB,3D', 'paymentMethods' => 'CC,DC']);
 
         // assert
         $this->assertTrue($response->isSuccessful(), 'The get transaction by id returned ' . $response->getResultCode());
@@ -35,7 +35,7 @@ class TransactionReportsTestCase extends TestCase
     public function getTransactionByDateFilter()
     {
         $catalystPay =  $this->getCatalystPayConfig();
-        $transactionSpecifiedTimeFrame = $catalystPay->getTransactionByDateFilter('2023-01-01 00:00:00', '2023-01-01 01:00:00', 20);
+        $transactionSpecifiedTimeFrame = $catalystPay->getTransactionByDateFilter(['dateFrom' => '2023-01-01 00:00:00', 'dateTo' => '2023-01-01 01:00:00', 'merchantTransactionId' => 'test123', 'paymentTypes' => 'DB,3D', 'paymentMethods' => 'CC,DC', 'limit' => 20]);
 
         // assert
         $this->assertTrue($transactionSpecifiedTimeFrame->isSuccessful(), 'The get transactions for a specified time frame returned ' . $transactionPagination->getResultCode());
@@ -46,7 +46,7 @@ class TransactionReportsTestCase extends TestCase
     public function testGeTransactionByDateWithPagination()
     {
         $catalystPay =  $this->getCatalystPayConfig();
-        $transactionPagination = $catalystPay->getTransactionByDateWithPagination('2023-01-01 00:00:00', '2023-01-01 01:00:00', 2);
+        $transactionPagination = $catalystPay->getTransactionByDateWithPagination(['dateFrom' => '2023-01-01 00:00:00', 'dateTo' => '2023-01-01 01:00:00', 'merchantTransactionId' => 'test123', 'paymentTypes' => 'DB,3D', 'paymentMethods' => 'CC,DC', 'pageNo' => 2]);
 
         // assert
         $this->assertTrue($transactionPagination->isSuccessful(), 'The get transactions pagination returned ' . $transactionPagination->getResultCode());

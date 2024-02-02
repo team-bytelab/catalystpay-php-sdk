@@ -30,7 +30,7 @@ use CatalystPay\CatalystPaySDK;
             $entityId = '8a8294174b7ecb28014b9699220015ca';
             $isProduction = false;
             $isCreateRegistration = 'true';
-            $paymentSDK = new CatalystPaySDK(
+            $catalystPaySDK = new CatalystPaySDK(
                 $token,
                 $entityId,
                 $isProduction
@@ -42,7 +42,7 @@ use CatalystPay\CatalystPaySDK;
                 'createRegistration' => $isCreateRegistration
             ];
             //Prepare Check out form 
-            $responseData = $paymentSDK->prepareRegisterCheckout($data);
+            $responseData = $catalystPaySDK->prepareRegisterCheckout($data);
 
             //  print_r($responseData);
             // var_dump($responseData->isCheckoutSuccess());
@@ -50,9 +50,30 @@ use CatalystPay\CatalystPaySDK;
             if ($responseData->isCheckoutSuccess()) {
                 //Show checkout success
                 $infoMessage = 'The checkout returned ' . $responseData->getResultCode() . ' instead of ' . CatalystPayResponseCode::CREATED_CHECKOUT;
-                $checkoutId = $responseData->getId(); // Assuming the response contains the ID
-                $shopperResultUrl = "http://localhost/catalystpay-php-sdk/registration_token_payment.php"; // Replace with your actual URL
-                echo $paymentSDK->getCreateRegistrationPaymentForm($checkoutId, $shopperResultUrl, [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX]);
+
+                $wpwlOptions = "{
+                    iframeStyles: {
+                        'card-number-placeholder': {
+                            'color': '#ff0000',
+                            'font-size': '16px',
+                            'font-family': 'monospace'
+                        },
+                        'cvv-placeholder': {
+                            'color': '#0000ff',
+                            'font-size': '16px',
+                            'font-family': 'Arial'
+                        }
+                    }
+                }";
+
+                $formData = [
+                    'checkoutId' => $responseData->getId(),
+                    'shopperResultUrl' => 'http://localhost/catalystpay-php-sdk/registration_token_payment.php',
+                    'dataBrands' => [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX],
+                    'wpwlOptions' => $wpwlOptions
+                ];
+
+                echo $catalystPaySDK->getCreateRegistrationPaymentForm($formData);
             } else {
                 $errorMessage = "The Prepare Checkout was not successful";
             }

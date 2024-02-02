@@ -17,11 +17,21 @@ class CopyAndPayCheckoutTest extends TestCase
         $catalystPay = $this->getCatalystPayConfig();
 
         // Checkout Values defined variable
-        $amount = 92.00;
-        $currency = 'EUR';
-        $paymentType = CatalystPaySDK::PAYMENT_TYPE_DEBIT;
+        $data = [
+            'amount' => 92.00,
+            'currency' => 'EUR',
+            'paymentType' => CatalystPaySDK::PAYMENT_TYPE_DEBIT,
+            'billing.city' => 'surat',
+            'billing.country' => 'DE',
+            'billing.street1' => 'test',
+            'billing.postcode' => 394210,
+            'customer.email' => 'test@gmail.com',
+            'customer.givenName' => 'John Smith',
+            'customer.surname' => 'Don',
+            'customer.ip' => '192.168.0.1'
+        ];
 
-        $response = $catalystPay->prepareCheckout($amount, $currency, $paymentType);
+        $response = $catalystPay->prepareCheckout($data);
 
         // assert
         $this->assertTrue($response->isCheckoutSuccess(), 'The checkout returned ' . $response->getResultCode() . ' instead of ' . CatalystPayResponseCode::CREATED_CHECKOUT);
@@ -37,7 +47,7 @@ class CopyAndPayCheckoutTest extends TestCase
             'card.expiryMonth' => 12,
             'card.expiryYear' => 2025,
             'card.holder' => 'John Smith',
-            'card.cvv' => 123
+            'card.cvv' => 123,
         ];
 
         //payment with card

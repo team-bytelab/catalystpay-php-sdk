@@ -17,21 +17,53 @@ trait CopyAndPayCheckout
     /**
      * Prepares a new checkout.
      *
-     * @param float  $amount      The amount of the payment.
-     * @param string $currency    The currency of the payment.
-     * @param string $paymentType The type of payment (e.g., DB, CD).
-     *
+     * @param array  $data  The payment data like amount,currency , paymentType etc.
+     * 
      * @return array The decoded JSON response.
      */
-    public function prepareCheckout($amount, $currency, $paymentType)
+    public function prepareCheckout($data = [])
     {
         // Form Data
         $baseOptions = [
             "entityId" => $this->entityId,
-            "amount" => $amount,
-            "currency" => $currency,
-            "paymentType" => $paymentType,
+            "amount" => $data['amount'],
+            "currency" => $data['currency'],
+            "paymentType" => $data['paymentType'],
         ];
+
+        // check if billing city
+        if (isset($data['billing.city'])) {
+            $baseOptions['billing.city'] = $data['billing.city'];
+        }
+        // check if billing country
+        if (isset($data['billing.country'])) {
+            $baseOptions['billing.country'] = $data['billing.country'];
+        }
+        // check if billing street1
+        if (isset($data['billing.street1'])) {
+            $baseOptions['billing.street1'] = $data['billing.street1'];
+        }
+        // check if billing postcode
+        if (isset($data['billing.postcode'])) {
+            $baseOptions['billing.postcode'] = $data['billing.postcode'];
+        }
+
+        // check if billing city
+        if (isset($data['billing.city'])) {
+            $baseOptions['billing.city'] = $data['billing.city'];
+        }
+        // check if customer email
+        if (isset($data['customer.email'])) {
+            $baseOptions['customer.email'] = $data['customer.email'];
+        }
+        // check if customer.givenName
+        if (isset($data['customer.givenName'])) {
+            $baseOptions['customer.givenName'] = $data['customer.givenName'];
+        }
+        // check if customer surname
+        if (isset($data['customer.surname'])) {
+            $baseOptions['customer.surname'] = $data['customer.surname'];
+        }
 
         $url = $this->baseUrl . CatalystPaySDK::URI_CHECKOUTS;
         $response =  $this->doPOST($url, $baseOptions, $this->isProduction, $this->token);
