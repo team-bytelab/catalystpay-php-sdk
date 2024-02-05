@@ -59,20 +59,7 @@ use CatalystPay\CatalystPaySDK;
                 if ($responseData->isCheckoutSuccess()) {
                     //Show checkout success
                     $infoMessage = 'The checkout returned ' . $responseData->getResultCode() . ' instead of ' . CatalystPayResponseCode::CREATED_CHECKOUT;
-                    $wpwlOptions = "{
-                            iframeStyles: {
-                                'card-number-placeholder': {
-                                    'color': '#ff0000',
-                                    'font-size': '16px',
-                                    'font-family': 'monospace'
-                                },
-                                'cvv-placeholder': {
-                                    'color': '#0000ff',
-                                    'font-size': '16px',
-                                    'font-family': 'Arial'
-                                }
-                            }
-                        }";
+                    $wpwlOptions = $_POST['wpwlOptions'];
                     $formData = [
                         'checkoutId' => $responseData->getId(),
                         'shopperResultUrl' => 'http://localhost/catalystpay-php-sdk/copy_and_pay_result.php',
@@ -96,6 +83,23 @@ use CatalystPay\CatalystPaySDK;
             <div class="row">
                 <div class="col-md-8 d-flex justify-content-center align-items-center">
                     <form action="#" method="POST">
+                        <div class="form-group my-2">
+                            <label for="id"> wpwlOptions:</label>
+                            <textarea class="form-control" name="wpwlOptions" id="wpwlOptions" cols="30" rows="10">"{
+                            iframeStyles: {
+                                'card-number-placeholder': {
+                                    'color': '#ff0000',
+                                    'font-size': '16px',
+                                    'font-family': 'monospace'
+                                },
+                                'cvv-placeholder': {
+                                    'color': '#0000ff',
+                                    'font-size': '16px',
+                                    'font-family': 'Arial'
+                                }
+                            }
+                        }"</textarea>
+                        </div>
                         <div class="form-group my-2">
                             <label for="id"> billing city:</label>
                             <input type="text" class="form-control" placeholder="Enter billing city" name="billing_city" value="Denmark">

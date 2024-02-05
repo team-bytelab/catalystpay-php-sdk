@@ -35,51 +35,67 @@ use CatalystPay\CatalystPaySDK;
                 $entityId,
                 $isProduction
             );
-
-            // Form Values defined variable
-            $data = [
-                'testMode' => CatalystPaySDK::TEST_MODE_EXTERNAL,
-                'createRegistration' => $isCreateRegistration
-            ];
-            //Prepare Check out form 
-            $responseData = $catalystPaySDK->prepareRegisterCheckout($data);
-
-            //  print_r($responseData);
-            // var_dump($responseData->isCheckoutSuccess());
-            // Check if checkout success is true
-            if ($responseData->isCheckoutSuccess()) {
-                //Show checkout success
-                $infoMessage = 'The checkout returned ' . $responseData->getResultCode() . ' instead of ' . CatalystPayResponseCode::CREATED_CHECKOUT;
-
-                $wpwlOptions = "{
-                    iframeStyles: {
-                        'card-number-placeholder': {
-                            'color': '#ff0000',
-                            'font-size': '16px',
-                            'font-family': 'monospace'
-                        },
-                        'cvv-placeholder': {
-                            'color': '#0000ff',
-                            'font-size': '16px',
-                            'font-family': 'Arial'
-                        }
-                    }
-                }";
-
-                $formData = [
-                    'checkoutId' => $responseData->getId(),
-                    'shopperResultUrl' => 'http://localhost/catalystpay-php-sdk/registration_token_payment.php',
-                    'dataBrands' => [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX],
-                    'wpwlOptions' => $wpwlOptions
+            if (isset($_POST['submit'])) {
+                // Form Values defined variable
+                $data = [
+                    'testMode' => CatalystPaySDK::TEST_MODE_EXTERNAL,
+                    'createRegistration' => $isCreateRegistration
                 ];
+                //Prepare Check out form 
+                $responseData = $catalystPaySDK->prepareRegisterCheckout($data);
 
-                echo $catalystPaySDK->getCreateRegistrationPaymentForm($formData);
-            } else {
-                $errorMessage = "The Prepare Checkout was not successful";
+                //  print_r($responseData);
+                // var_dump($responseData->isCheckoutSuccess());
+                // Check if checkout success is true
+                if ($responseData->isCheckoutSuccess()) {
+                    //Show checkout success
+                    $infoMessage = 'The checkout returned ' . $responseData->getResultCode() . ' instead of ' . CatalystPayResponseCode::CREATED_CHECKOUT;
+
+                    $wpwlOptions = $_POST['wpwlOptions'];
+
+                    $formData = [
+                        'checkoutId' => $responseData->getId(),
+                        'shopperResultUrl' => 'http://localhost/catalystpay-php-sdk/registration_token_payment.php',
+                        'dataBrands' => [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX],
+                        'wpwlOptions' => $wpwlOptions
+                    ];
+
+                    echo $catalystPaySDK->getCreateRegistrationPaymentForm($formData);
+                } else {
+                    $errorMessage = "The Prepare Checkout was not successful";
+                }
             }
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
         } ?>
+        <div class="custom-box box3" style="<?php echo (isset($_POST['submit'])) ? 'display: none;' : ''; ?>">
+
+            <div class="row">
+                <div class="col-md-8 d-flex justify-content-center align-items-center">
+                    <form action="#" method="POST">
+                        <div class="form-group my-2">
+                            <label for="id"> wpwlOptions:</label>
+                            <textarea class="form-control" name="wpwlOptions" id="wpwlOptions" cols="30" rows="10">{
+                            iframeStyles: {
+                                'card-number-placeholder': {
+                                    'color': '#ff0000',
+                                    'font-size': '16px',
+                                    'font-family': 'monospace'
+                                },
+                                'cvv-placeholder': {
+                                    'color': '#0000ff',
+                                    'font-size': '16px',
+                                    'font-family': 'Arial'
+                                }
+                            }
+                        }</textarea>
+                        </div>
+                        <input type="submit" name="submit" class="btn btn-info" value="Checkout">
+                    </form>
+                </div>
+            </div>
+
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <?php
