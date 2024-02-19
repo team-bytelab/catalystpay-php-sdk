@@ -324,3 +324,123 @@ try {
 }
 
 ```
+
+## Backoffice Operations
+
+### 1) Go to root project and you can use this catalystPaySDK class for  You can perform different types of backoffice operations for a rebill is performed against a previous payment, using our REST API from the platform in your PHP code as follows
+
+```php
+require_once 'vendor/autoload.php';
+
+use CatalystPay\CatalystPaySDK;
+
+// Example usage
+try {
+
+    // Configured  CatalystPaySDK
+    $token = 'OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=';
+    $entityId = '8a8294174b7ecb28014b9699220015ca';
+    $isProduction = false;
+    $catalystPaySDK = new CatalystPaySDK(
+        $token,
+        $entityId,
+        $isProduction
+    );
+ 
+    // Capture an authorization
+    $dataCapturePaymentsByOperations = [
+        'paymentId' => '8a82944a4cc25ebf014cc2c782423202',
+        'paymentType' => 'CP',
+        'amount' => '10.00',
+        'currency' => 'EUR',
+    ];
+
+    $paymentsByCaptureOperations = $catalystPay->paymentsByOperations($dataCapturePaymentsByOperations);
+    print_r($paymentsByCaptureOperations);
+
+    // Refund a payment
+    $dataRefundPaymentsByOperations = [
+        'paymentId' => '8a82944a4cc25ebf014cc2c782423202',
+        'paymentType' => 'RF',
+        'amount' => '10.00',
+        'currency' => 'EUR',
+    ];
+
+    $paymentsRefundByOperations = $catalystPay->paymentsByOperations($dataRefundPaymentsByOperations);
+    print_r($paymentsRefundByOperations);
+
+    // Receipt for payment
+    $dataReceiptPaymentsByOperations = [
+        'paymentId' => '8a82944a4cc25ebf014cc2c782423202',
+        'paymentType' => 'RC',
+        'amount' => '10.00',
+        'currency' => 'EUR',
+    ];
+
+    $paymentsReceiptByOperations = $catalystPay->paymentsByOperations($dataReceiptPaymentsByOperations);
+    print_r($paymentsReceiptByOperations);
+       
+    // Rebill for payment
+    $dataRebillPaymentsByOperations = [
+        'paymentId' => '8a82944a4cc25ebf014cc2c782423202',
+        'paymentType' => 'RB',
+        'amount' => '10.00',
+        'currency' => 'EUR',
+    ];
+
+    $paymentsRebillByOperations = $catalystPay->paymentsByOperations($dataRebillPaymentsByOperations);
+    print_r($paymentsRebillByOperations);
+     
+    // Reverse a payment
+    $dataReversePaymentsByOperations = [
+        'paymentId' => $payCardRequest->getId(),
+        'paymentType' => 'RV',
+    ];
+
+    $paymentsReverseByOperations = $catalystPay->paymentsByOperations($dataReversePaymentsByOperations);
+    print_r($paymentsReverseByOperations);
+} catch (Exception $e) {
+    echo  $e->getMessage();
+}
+
+```
+
+### 2) Go to root project and you can use this catalystPaySDK class for  You can perform different types of backoffice operations for Credit (stand-alone refund) using our REST API from the platform in your PHP code as follows
+
+```php
+require_once 'vendor/autoload.php';
+
+use CatalystPay\CatalystPaySDK;
+
+// Example usage
+try {
+
+    // Configured  CatalystPaySDK
+    $token = 'OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=';
+    $entityId = '8a8294174b7ecb28014b9699220015ca';
+    $isProduction = false;
+    $catalystPaySDK = new CatalystPaySDK(
+        $token,
+        $entityId,
+        $isProduction
+    );
+
+    $dataPaymentsByOperations =[
+        'paymentType'=> 'CD',
+        'amount'=> '10.00',
+        'currency'=> 'EUR', 
+        'paymentBrand' =>'VISA',
+        'cardNumber' => '4200000000000000',
+        'cardExpiryMonth' => '12',
+        'cardExpiryYear' => '2025',
+        'cardHolder' => 'Jane Jones',        
+    ];
+    
+    $paymentsByOperations = $catalystPaySDK->CreditStandAloneRefund($dataPaymentsByOperations);
+    $resultPaymentsByOperations = $paymentsByOperations->getApiResponse(); 
+    print_r($resultPaymentsByOperations);
+} catch (Exception $e) {
+    echo  $e->getMessage();
+}
+
+```

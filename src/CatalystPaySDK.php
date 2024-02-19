@@ -2,6 +2,7 @@
 
 namespace CatalystPay;
 
+use CatalystPay\Traits\BackofficeOperations;
 use CatalystPay\Traits\CopyAndPayCheckout;
 use CatalystPay\Traits\CreateCopyAndPayForm;
 use CatalystPay\Traits\CreateRegistrationTokenForm;
@@ -14,7 +15,7 @@ use CatalystPay\Traits\TransactionReports;
  */
 class CatalystPaySDK
 {
-    use CopyAndPayCheckout, CreateCopyAndPayForm, RegistrationTokens, CreateRegistrationTokenForm, TransactionReports, SettlementReports;
+    use CopyAndPayCheckout, CreateCopyAndPayForm, RegistrationTokens, CreateRegistrationTokenForm, TransactionReports, SettlementReports, BackofficeOperations;
 
     /** @var string The base URL for API requests. */
     private $baseUrl;
@@ -42,6 +43,7 @@ class CatalystPaySDK
     const URI_REGISTRATIONS = "/v1/registrations";
     const URI_PAYMENT = '/payment';
     const URI_PAYMENTS = '/payments';
+    const URI_BACKOFFICE_OPERATIONS_PAYMENTS = '/v1/payments';
     const URI_TRANSACTION_REPORTS = "/v3/query";
     const URI_SETTLEMENT_REPORTS = "/reports/v1/reconciliations/aggregations";
     const URI_SETTLEMENT_REPORTS_PAGINATION = "/reports/v2/reconciliations/aggregations";

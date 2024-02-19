@@ -2,6 +2,9 @@
     "name": "catalystpay/catalystpay-php-sdk",
     "keywords": ["php","catalystpay"],
     "description": "COPYandPAY is a SAQ-A compliant payment-form solution, making it both secure and simple-to-integrate.",
+    "require": {
+        "php": ">=7.4"
+    },
     "type": "library",
     "license": "MIT",
     "minimum-stability": "dev",
