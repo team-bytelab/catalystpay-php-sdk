@@ -60,6 +60,8 @@ use CatalystPay\CatalystPaySDK;
                     //Show checkout success
                     $infoMessage = 'The checkout returned ' . $responseData->getResultCode() . ' instead of ' . CatalystPayResponseCode::CREATED_CHECKOUT;
                     $wpwlOptions = $_POST['wpwlOptions'];
+
+                    // Payment with card
                     $formData = [
                         'checkoutId' => $responseData->getId(),
                         'shopperResultUrl' => 'http://localhost/catalystpay-php-sdk/copy_and_pay_result.php',
@@ -67,6 +69,24 @@ use CatalystPay\CatalystPaySDK;
                         'wpwlOptions' => $wpwlOptions
                     ];
                     echo $catalystPaySDK->createPaymentForm($formData);
+
+                    // Payment with google pay
+                    $formData2 = [
+                        'checkoutId' => $responseData->getId(),
+                        'shopperResultUrl' => 'http://localhost/catalystpay-php-sdk/copy_and_pay_result.php',
+                        'dataBrands' => [CatalystPaySDK::PAYMENT_BRAND_GOOGLE_PAY],
+                        'wpwlOptions' => $wpwlOptions
+                    ];
+                    echo $catalystPaySDK->createPaymentForm($formData2);
+
+                    // Payment with rocket fuel
+                    $formData4 = [
+                        'checkoutId' => $responseData->getId(),
+                        'shopperResultUrl' => 'http://localhost/catalystpay-php-sdk/copy_and_pay_result.php',
+                        'dataBrands' => [CatalystPaySDK::PAYMENT_BRAND_ROCKET_FUEL],
+                        'wpwlOptions' => $wpwlOptions
+                    ];
+                    echo $catalystPaySDK->createPaymentForm($formData4);
                 } else {
                     $errorMessage = "The Prepare Checkout was not successful";
                 }
@@ -85,7 +105,7 @@ use CatalystPay\CatalystPaySDK;
                     <form action="#" method="POST">
                         <div class="form-group my-2">
                             <label for="id"> wpwlOptions:</label>
-                            <textarea class="form-control" name="wpwlOptions" id="wpwlOptions" cols="30" rows="10">"{
+                            <textarea class="form-control" name="wpwlOptions" id="wpwlOptions" cols="30" rows="10">{
                             iframeStyles: {
                                 'card-number-placeholder': {
                                     'color': '#ff0000',
@@ -98,7 +118,7 @@ use CatalystPay\CatalystPaySDK;
                                     'font-family': 'Arial'
                                 }
                             }
-                        }"</textarea>
+                        }</textarea>
                         </div>
                         <div class="form-group my-2">
                             <label for="id"> billing city:</label>

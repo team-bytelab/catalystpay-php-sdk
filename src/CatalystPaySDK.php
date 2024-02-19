@@ -62,6 +62,9 @@ class CatalystPaySDK
     const PAYMENT_BRAND_VISA = 'VISA';
     const PAYMENT_BRAND_MASTERCARD = 'MASTER';
     const PAYMENT_BRAND_AMEX = 'AMEX';
+    const PAYMENT_BRAND_GOOGLE_PAY = 'GOOGLEPAY';
+    const PAYMENT_BRAND_APPLE_PAY = 'APPLEPAY';
+    const PAYMENT_BRAND_ROCKET_FUEL = 'ROCKETFUEL';
 
     // Constants for various testMode
     const TEST_MODE_EXTERNAL = 'EXTERNAL';

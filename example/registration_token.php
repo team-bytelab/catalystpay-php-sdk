@@ -53,6 +53,7 @@ use CatalystPay\CatalystPaySDK;
 
                     $wpwlOptions = $_POST['wpwlOptions'];
 
+                    // Payment with card
                     $formData = [
                         'checkoutId' => $responseData->getId(),
                         'shopperResultUrl' => 'http://localhost/catalystpay-php-sdk/registration_token_payment.php',
@@ -61,6 +62,24 @@ use CatalystPay\CatalystPaySDK;
                     ];
 
                     echo $catalystPaySDK->getCreateRegistrationPaymentForm($formData);
+
+                    // Payment with google pay
+                    $formData2 = [
+                        'checkoutId' => $responseData->getId(),
+                        'shopperResultUrl' => 'http://localhost/catalystpay-php-sdk/copy_and_pay_result.php',
+                        'dataBrands' => [CatalystPaySDK::PAYMENT_BRAND_GOOGLE_PAY],
+                        'wpwlOptions' => $wpwlOptions
+                    ];
+                    echo $catalystPaySDK->getCreateRegistrationPaymentForm($formData2);
+
+                    // Payment with rocket fuel
+                    $formData4 = [
+                        'checkoutId' => $responseData->getId(),
+                        'shopperResultUrl' => 'http://localhost/catalystpay-php-sdk/copy_and_pay_result.php',
+                        'dataBrands' => [CatalystPaySDK::PAYMENT_BRAND_ROCKET_FUEL],
+                        'wpwlOptions' => $wpwlOptions
+                    ];
+                    echo $catalystPaySDK->getCreateRegistrationPaymentForm($formData4);
                 } else {
                     $errorMessage = "The Prepare Checkout was not successful";
                 }
