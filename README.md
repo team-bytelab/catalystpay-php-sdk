@@ -68,7 +68,11 @@ try {
         $formData = [
             'checkoutId' => $responseData->getId(),
             'shopperResultUrl' => 'http://localhost/catalystpay-php-sdk/copy_and_pay_result.php',
-            'dataBrands' => [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX],
+            'dataBrands' => [
+                CatalystPaySDK::PAYMENT_BRAND_VISA,
+                CatalystPaySDK::PAYMENT_BRAND_MASTERCARD,
+                CatalystPaySDK::PAYMENT_BRAND_AMEX
+                ],
             'wpwlOptions' => $wpwlOptions
         ];
         echo $catalystPaySDK->createPaymentForm($formData);
@@ -195,7 +199,11 @@ try {
         $formData = [
             'checkoutId' => $responseData->getId(),
             'shopperResultUrl' => 'http://localhost/catalystpay-php-sdk/registration_token_payment.php',
-            'dataBrands' => [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX],
+            'dataBrands' => [
+                CatalystPaySDK::PAYMENT_BRAND_VISA ,
+                CatalystPaySDK::PAYMENT_BRAND_MASTERCARD,
+                CatalystPaySDK::PAYMENT_BRAND_AMEX
+                ],
             'wpwlOptions' => $wpwlOptions
         ];
 

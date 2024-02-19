@@ -33,12 +33,12 @@ trait CreateRegistrationTokenForm
      * @param array $dataBrands The payment brands to display (optional).
      * @return string The HTML form with payment widgets.
      */
-    public function getRegistrationPaymentForm($shopperResultUrl = '', $dataBrands = [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX])
+    public function getRegistrationPaymentForm($shopperResultUrl = '', $dataBrands = [CatalystPaySDK::PAYMENT_BRAND_VISA, CatalystPaySDK::PAYMENT_BRAND_MASTERCARD, CatalystPaySDK::PAYMENT_BRAND_AMEX])
     {
         // If dataBrands is not empty, convert it to a comma-separated string/ If dataBrands is not empty, convert it to a comma-separated string
         if (!empty($dataBrands)) {
 
-            $this->brands = implode(',', $dataBrands);
+            $this->brands = implode(' ', $dataBrands);
         }
         return '<form action=' . $shopperResultUrl . ' class="paymentWidgets" data-brands="' . $this->brands . '"></form>';
     }

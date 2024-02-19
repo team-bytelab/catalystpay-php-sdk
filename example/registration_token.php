@@ -57,7 +57,11 @@ use CatalystPay\CatalystPaySDK;
                     $formData = [
                         'checkoutId' => $responseData->getId(),
                         'shopperResultUrl' => 'http://localhost/catalystpay-php-sdk/registration_token_payment.php',
-                        'dataBrands' => [CatalystPaySDK::PAYMENT_BRAND_VISA . ' ' . CatalystPaySDK::PAYMENT_BRAND_MASTERCARD . ' ' . CatalystPaySDK::PAYMENT_BRAND_AMEX],
+                        'dataBrands' => [
+                            CatalystPaySDK::PAYMENT_BRAND_VISA,
+                            CatalystPaySDK::PAYMENT_BRAND_MASTERCARD,
+                            CatalystPaySDK::PAYMENT_BRAND_AMEX
+                        ],
                         'wpwlOptions' => $wpwlOptions
                     ];
 
