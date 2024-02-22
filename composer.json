@@ -1,5 +1,5 @@
 {
-    "name": "catalystpay/catalystpay-php-sdk",
+    "name": "bytelab/bytelab-test-sdk",
     "keywords": ["php","catalystpay"],
     "description": "COPYandPAY is a SAQ-A compliant payment-form solution, making it both secure and simple-to-integrate.",
     "require": {
